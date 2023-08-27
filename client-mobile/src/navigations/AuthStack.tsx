@@ -4,8 +4,7 @@ import LoginPage from "../views/unauth/LoginPage";
 import React from "react";
 import MainTabs from "./MainTabs";
 import RegisterPage from "../views/unauth/RegisterPage";
-import { AuthProvider, useAuth } from "../context/AuthContext";
-import HomePage from "../views/auth/HomePage";
+import { useAuth } from "../context/AuthContext";
 import { Button } from "tamagui";
 
 const Stack = createNativeStackNavigator();

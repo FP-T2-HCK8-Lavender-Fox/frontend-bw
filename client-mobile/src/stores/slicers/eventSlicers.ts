@@ -1,12 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getEvents } from "../reducers/eventReducer";
+import {
+  getEvents,
+  getEventById,
+  addEventToUser,
+} from "../reducers/eventReducer";
 
 export const eventsSlice = createSlice({
   name: "events",
   initialState: {
     events: {
       fullEvents: [],
+      eventById: {
+        id: null,
+        name: null,
+        startDate: "",
+        endDate: "",
+        active: null,
+        description: null,
+        amount: null,
+        address: null,
+        lat: null,
+        long: null,
+        pics: undefined,
+        CategoryId: null,
+        AdminId: null,
+        createdAt: null,
+        updatedAt: null,
+        Admin: null,
+        Category: null,
+      },
       isLoading: false,
+      isError: false,
     },
   },
   reducers: {
@@ -19,6 +43,19 @@ export const eventsSlice = createSlice({
     [getEvents.fulfilled.type]: (state, { payload }) => {
       state.events.isLoading = false;
       state.events.fullEvents = payload;
+    },
+    [getEventById.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getEventById.fulfilled.type]: (state, { payload }) => {
+      state.events.isLoading = false;
+      state.events.eventById = payload;
+    },
+    [addEventToUser.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [addEventToUser.fulfilled.type]: (state, action) => {
+      state.events.isLoading = false;
     },
   },
 });
