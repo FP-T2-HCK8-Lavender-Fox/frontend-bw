@@ -6,6 +6,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./src/navigations/AuthStack";
 import { useFonts } from "expo-font";
 import { AuthProvider } from "./src/context/AuthContext";
+import { Provider } from "react-redux";
+import { store } from "./src/stores/store";
 
 export default function App() {
   const colorScheme = useColorScheme();
@@ -21,20 +23,22 @@ export default function App() {
   }
 
   return (
-    <TamaguiProvider config={config}>
-      <Theme name={colorScheme === "dark" ? "dark" : "light"}>
-        <YStack
-          f={1}
-          bg="$backgroundTransparent"
-          style={{ marginTop: StatusBar.currentHeight }}
-        >
-          <AuthProvider>
-            <NavigationContainer>
-              <AuthStack />
-            </NavigationContainer>
-          </AuthProvider>
-        </YStack>
-      </Theme>
-    </TamaguiProvider>
+    <Provider store={store}>
+      <TamaguiProvider config={config}>
+        <Theme name={colorScheme === "dark" ? "dark" : "light"}>
+          <YStack
+            f={1}
+            bg="$backgroundTransparent"
+            style={{ marginTop: StatusBar.currentHeight }}
+          >
+            <AuthProvider>
+              <NavigationContainer>
+                <AuthStack />
+              </NavigationContainer>
+            </AuthProvider>
+          </YStack>
+        </Theme>
+      </TamaguiProvider>
+    </Provider>
   );
 }
