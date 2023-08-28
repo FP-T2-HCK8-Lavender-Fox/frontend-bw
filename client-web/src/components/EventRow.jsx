@@ -12,31 +12,33 @@ export default function TableRow({ event }) {
   const [eventModal, setEventModal] = useState(false);
   const handleOnCloseEvent = () => setEventModal(false);
 
-  const showDetail = () => {
-    navigate("/detail/" + event.id);
+  const showDetail = (e) => {
+    console.log(e.target.id);
+    if (e.target.id === "container") navigate("/detail/" + event.id);
   };
 
   return (
     <>
       <tr
+        id="container"
         className="hover font-mono text-black font-bold text-lg"
         onClick={showDetail}
       >
-        <td>{event.name}</td>
-        <td>
+        <td id="container">{event.name}</td>
+        <td id="container">
           <div className="avatar w-24 rounded-full">
             <img src={event.pics} alt={event.name} />
           </div>
         </td>
-        <td>{event.Category.name}</td>
-        <td>
+        <td id="container">{event.Category.name}</td>
+        <td id="container">
           {new Intl.NumberFormat("id-ID", {
             style: "currency",
             currency: "IDR",
           }).format(event.amount)}
         </td>
-        <td>{event.address}</td>
-        <td>{event.Admin.username}</td>
+        <td id="container">{event.address}</td>
+        <td id="container">{event.Admin.username}</td>
         <td className="lg:space-x-6 lg:items-center">
           <button
             className="my-2 btn btn-primary btn-sm lg:btn-md"

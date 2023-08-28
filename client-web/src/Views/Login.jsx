@@ -45,14 +45,15 @@ export default function Login() {
 
   return (
     <div className="hero min-h-screen bg-base-100">
-      <div className="hero-content text-center">
-        <div className="card bg-neutral w-96">
-          <div className="card-body text-white">
+      <div className="hero-content flex-col lg:flex-row text-center ">
+        <img src="/icon.png" className="max-w-sm rounded-lg bg-white" />
+        <div className="card w-96 bg-neutral">
+          <div className="card-body text-black">
             <h1 className="card-title font-mono">Login</h1>
             <form method="post" onSubmit={handleLogin}>
               <div className="form-control w-full max-w-xs">
                 <label className="label ">
-                  <span className="label-text text-white font-bold font-mono">
+                  <span className="label-text text-black font-bold font-mono">
                     Username
                   </span>
                 </label>
@@ -67,7 +68,7 @@ export default function Login() {
               </div>
               <div className="form-control w-full max-w-xs">
                 <label className="label">
-                  <span className="label-text text-white font-bold font-mono">
+                  <span className="label-text text-black font-bold font-mono">
                     Password
                   </span>
                 </label>
