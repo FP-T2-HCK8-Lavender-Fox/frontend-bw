@@ -18,6 +18,7 @@ export default function Admin() {
   );
   const [qrModal, setQrModal] = useState(false);
   const handleOnClose = () => setQrModal(false);
+
   const handleOnOpen = async () => {
     await dispatch(generateQR(checkpoints));
     setQrModal(true);
@@ -65,7 +66,9 @@ export default function Admin() {
           </div>
           <div className="flex flex-col lg:flex-row w-full min-h-screen">
             <div className="grid flex-grow h-48 card items-center m-10 p-10">
-              <h2 className="text-bold text-2xl font-mono">Participants</h2>
+              <div className="flex flex-row justify-between mb-2">
+                <h2 className="text-bold text-2xl font-mono">Participants</h2>
+              </div>
               <table className="table rounded-full">
                 <thead>
                   <tr className="font-mono text-black font-bold text-2xl bg-neutral">
@@ -97,56 +100,45 @@ export default function Admin() {
             ) : null}
             {!checkpointLoading && Object.values(checkpoints).length > 1 ? (
               <div className="grid flex-grow h-48 card items-center m-10 p-10">
-                <h2 className="text-bold text-2xl font-mono">Checkpoints</h2>
+                <div className="flex flex-row justify-between mb-2">
+                  <h2 className="text-bold text-2xl font-mono">Checkpoints</h2>
+                  <button
+                    className="btn btn-primary btn-sm lg:btn-sm w-1/4"
+                    onClick={handleOnOpen}
+                  >
+                    Show Qr
+                  </button>
+                </div>
                 <table className="table">
                   <thead>
                     <tr className="font-mono text-black font-bold text-2xl bg-neutral">
                       <th>Checkpoint</th>
-                      <th>QR</th>
+                      <th>Latitude</th>
+                      <th>Longitude</th>
                     </tr>
                   </thead>
                   <tbody className="bg-yellow-300">
                     <tr className="font-mono text-black font-bold text-lg">
                       <td>{checkpoints[0].name}</td>
-                      <td>
-                        <button
-                          className="btn btn-primary btn-sm lg:btn-md"
-                          onClick={handleOnOpen}
-                        >
-                          Show Qr
-                        </button>
-                      </td>
+                      <td>{checkpoints[0].lat}</td>
+                      <td>{checkpoints[0].long}</td>
                     </tr>
                     <tr className="font-mono text-black font-bold text-lg">
                       <td>{checkpoints[1].name}</td>
-                      <td>
-                        <button
-                          className="btn btn-primary btn-sm lg:btn-md"
-                          onClick={handleOnOpen}
-                        >
-                          Show Qr
-                        </button>
-                      </td>
+                      <td>{checkpoints[0].lat}</td>
+                      <td>{checkpoints[0].long}</td>
                     </tr>
                     <tr className="font-mono text-black font-bold text-lg">
                       <td>{checkpoints[2].name}</td>
-                      <td>
-                        <button
-                          className="btn btn-primary btn-sm lg:btn-md"
-                          onClick={handleOnOpen}
-                        >
-                          Show Qr
-                        </button>
-                      </td>
+                      <td>{checkpoints[0].lat}</td>
+                      <td>{checkpoints[0].long}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             ) : null}
           </div>
-          <QrModal visible={qrModal} onClose={handleOnClose} qr={qr[0]} />
-          <QrModal visible={qrModal} onClose={handleOnClose} qr={qr[1]} />
-          <QrModal visible={qrModal} onClose={handleOnClose} qr={qr[2]} />
+          <QrModal visible={qrModal} onClose={handleOnClose} qr={qr} />
         </>
       ) : null}
     </>
