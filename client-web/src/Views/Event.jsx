@@ -43,7 +43,7 @@ export default function Movie() {
             <div className="hero-content justify-between">
               <h1 className="font-mono font-bold text-4xl">Events</h1>
               <button
-                className="btn btn-primary sm:btn-sm md:btn-md"
+                className="btn btn-primary btn-md"
                 onClick={() => setEventModal(true)}
               >
                 add Event

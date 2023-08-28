@@ -47,7 +47,7 @@ export default function Genre() {
                 Categories
               </h1>
               <button
-                className="btn btn-primary btn-xs sm:btn-sm md:btn-md"
+                className="btn btn-primary btn-md"
                 onClick={() => setCategoryModal(true)}
               >
                 add Category

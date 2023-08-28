@@ -4,7 +4,6 @@ import EventForm from "../components/EventForm";
 import DeleteModal from "../components/DeleteModal";
 
 export default function TableRow({ event }) {
-
   const [deleteModal, setDeleteModal] = useState(false);
   const handleOnCloseDelete = () => setDeleteModal(false);
 
@@ -29,16 +28,16 @@ export default function TableRow({ event }) {
         </td>
         <td>{event.address}</td>
         <td>{event.Admin.username}</td>
-        <td className="space-x-6 items-center">
+        <td className="lg:space-x-6 lg:items-center">
           <button
-            className=" btn btn-primary btn-xs sm:btn-sm md:btn-md"
+            className="my-2 btn btn-primary btn-sm lg:btn-md"
             onClick={() => setEventModal(true)}
           >
             Edit
           </button>
           <button
             onClick={() => setDeleteModal(true)}
-            className="  btn btn-primary btn-xs sm:btn-sm md:btn-md "
+            className="btn btn-primary btn-sm lg:btn-md"
           >
             Delete
           </button>
@@ -47,7 +46,7 @@ export default function TableRow({ event }) {
       <DeleteModal
         visible={deleteModal}
         onClose={handleOnCloseDelete}
-        category={event}
+        event={event}
       />
       <EventForm
         visible={eventModal}

@@ -8,6 +8,7 @@ import {
   setMsgEvent,
 } from "../store/eventReducer";
 import { fetchCategories } from "../store/categoryReducer";
+import moment from "moment";
 
 export default function EventForm({ visible, onClose, event }) {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ export default function EventForm({ visible, onClose, event }) {
   const onChangeInput = ({ target: { name, value, files } }) => {
     if (name === "pics") setEventState({ ...eventState, [name]: files[0] });
     else setEventState({ ...eventState, [name]: value });
-    console.log(eventState);
+    // console.log(eventState);
   };
 
   const onChangeCheckpointInput = ({ target: { id, name, value } }) => {
@@ -151,11 +152,6 @@ export default function EventForm({ visible, onClose, event }) {
 
   useEffect(() => {
     if (event) setEventState(event);
-    // console.log(new Date());
-    // console.log(-new Date().getTimezoneOffset() / 60);
-    // console.log(new Date().toJSON().toLocaleString());
-    console.log(new Date().toJSON().split(/:\d\d\D\d\d\d/)[0]);
-    console.log(event)
     dispatch(fetchCategories());
   }, [event, dispatch]);
 
@@ -168,26 +164,26 @@ export default function EventForm({ visible, onClose, event }) {
         className={
           event
             ? "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center"
-            : "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center"
+            : "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center"
         }
       >
         <div
           className={
-            event ? "overflow-y-auto h-5/6" : "overflow-y-auto h-5/6 w-full"
+            event ? "overflow-y-auto h-5/6" : "overflow-y-auto h-5/6 lg:w-full"
           }
         >
           <div
             className={
               event
                 ? "hero-content text-center bg-neutral"
-                : "hero-content bg-neutral max-w-full"
+                : "hero-content bg-neutral lg:max-w-full "
             }
           >
             <div
               className={
                 event
                   ? "card bg-neutral w-96"
-                  : "card bg-neutral w-full justify-start"
+                  : "card bg-neutral lg:w-full lg:justify-start"
               }
             >
               <button
@@ -224,8 +220,12 @@ export default function EventForm({ visible, onClose, event }) {
                       id="startDate"
                       type="datetime-local"
                       name="startDate"
-                      min={new Date().toJSON()}
-                      value={eventState.startDate}
+                      min={moment(eventState.startDate).format(
+                        "YYYY-MM-DDThh:mm"
+                      )}
+                      value={moment(eventState.startDate).format(
+                        "YYYY-MM-DDThh:mm"
+                      )}
                       onChange={onChangeInput}
                       className="input input-bordered w-full max-w-xs"
                     />
@@ -240,8 +240,12 @@ export default function EventForm({ visible, onClose, event }) {
                       id="endDate"
                       type="datetime-local"
                       name="endDate"
-                      min={new Date().toJSON()}
-                      value={eventState.endDate}
+                      min={moment(eventState.endDate).format(
+                        "YYYY-MM-DDThh:mm"
+                      )}
+                      value={moment(eventState.endDate).format(
+                        "YYYY-MM-DDThh:mm"
+                      )}
                       onChange={onChangeInput}
                       className="input input-bordered w-full max-w-xs"
                     />
@@ -429,12 +433,12 @@ export default function EventForm({ visible, onClose, event }) {
                       );
                     })}
                 {event ? null : loading ? (
-                  <button className="btn btn-shadow btn-primary w-1/6 absolute right-2 bottom-2">
+                  <button className="btn btn-shadow btn-primary lg:w-1/6 lg:absolute lg:top-24 lg:right-2">
                     <span className="loading loading-spinner loading-md "></span>
                   </button>
                 ) : (
                   <button
-                    className="btn btn-shadow btn-primary w-1/6 absolute top-24 right-2"
+                    className="btn btn-shadow btn-primary w-full lg:w-1/6 lg:absolute lg:top-24 lg:right-2"
                     onClick={handleAddEvent}
                     value="Add"
                     // type="submit"
