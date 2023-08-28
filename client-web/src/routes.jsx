@@ -3,6 +3,7 @@ import Event from "./Views/Event";
 import Admin from "./Views/Admin";
 import Category from "./Views/Category";
 import Login from "./Views/Login";
+import DetailEvent from "./Views/DetailEvent";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/categories",
         element: <Category />,
+      },
+      {
+        path: "/detail/:id",
+        element: <DetailEvent />,
       },
     ],
   },

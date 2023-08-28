@@ -220,9 +220,7 @@ export default function EventForm({ visible, onClose, event }) {
                       id="startDate"
                       type="datetime-local"
                       name="startDate"
-                      min={moment(eventState.startDate).format(
-                        "YYYY-MM-DDThh:mm"
-                      )}
+                      min={moment(new Date()).format("YYYY-MM-DDThh:mm")}
                       value={moment(eventState.startDate).format(
                         "YYYY-MM-DDThh:mm"
                       )}
@@ -240,9 +238,7 @@ export default function EventForm({ visible, onClose, event }) {
                       id="endDate"
                       type="datetime-local"
                       name="endDate"
-                      min={moment(eventState.endDate).format(
-                        "YYYY-MM-DDThh:mm"
-                      )}
+                      min={moment(new Date()).format("YYYY-MM-DDThh:mm")}
                       value={moment(eventState.endDate).format(
                         "YYYY-MM-DDThh:mm"
                       )}
@@ -263,7 +259,7 @@ export default function EventForm({ visible, onClose, event }) {
                       onChange={onChangeInput}
                       className="select select-bordered"
                     >
-                      <option selected>--- Select ---</option>
+                      <option>--- Select ---</option>
                       {categories.map((el) => {
                         return (
                           <option key={el.id} value={el.id}>
@@ -321,7 +317,7 @@ export default function EventForm({ visible, onClose, event }) {
                   <div className="form-control w-full max-w-xs">
                     <label className="label">
                       <span className="label-text text-black font-bold font-mono text-lg">
-                        Longitude
+                        long
                       </span>
                     </label>
                     <input
@@ -336,7 +332,7 @@ export default function EventForm({ visible, onClose, event }) {
                   <div className="form-control w-full max-w-xs">
                     <label className="label">
                       <span className="label-text text-black font-bold font-mono text-lg">
-                        Latitude
+                        lat
                       </span>
                     </label>
                     <input
