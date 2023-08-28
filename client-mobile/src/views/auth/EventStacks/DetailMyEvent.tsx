@@ -22,10 +22,10 @@ export default function DetailMyEvent({ route }: any) {
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      setError(!error);
+      return setError(!error);
     }
     // @ts-ignore
-    await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+    return await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
   };
 
   React.useEffect(() => {
