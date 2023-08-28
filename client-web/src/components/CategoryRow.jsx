@@ -16,14 +16,14 @@ export default function TableRow({ category }) {
         <td>{category.name}</td>
         <td className="space-x-6 items-center">
           <button
-            className="btn btn-info btn-xs sm:btn-sm md:btn-md"
+            className="btn btn-primary btn-sm lg:btn-md"
             onClick={() => setCategoryModal(true)}
           >
             Edit
           </button>
           <button
             onClick={() => setDeleteModal(true)}
-            className="btn btn-primary btn-xs sm:btn-sm md:btn-md "
+            className="btn btn-primary btn-sm lg:btn-md"
           >
             Delete
           </button>
