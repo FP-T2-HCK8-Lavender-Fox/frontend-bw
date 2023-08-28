@@ -10,8 +10,13 @@ import {
   deleteCategoryById,
   setMsgCategory,
 } from "../store/categoryReducer";
+import {
+  fetchEvents,
+  deleteEventById,
+  setMsgEvent,
+} from "../store/eventReducer";
 
-export default function Modal({ visible, onClose, admin, category }) {
+export default function Modal({ visible, onClose, admin, category, event }) {
   const handleOnClose = (e) => {
     if (e.target.id === "container") onClose();
   };
@@ -31,6 +36,14 @@ export default function Modal({ visible, onClose, admin, category }) {
     await dispatch(fetchCategories());
     setTimeout(() => {
       dispatch(setMsgCategory(""));
+    }, 2000);
+  };
+
+  const handleDeleteEvent = async () => {
+    await dispatch(deleteEventById(event.id));
+    await dispatch(fetchEvents());
+    setTimeout(() => {
+      dispatch(setMsgEvent(""));
     }, 2000);
   };
 
@@ -59,6 +72,11 @@ export default function Modal({ visible, onClose, admin, category }) {
               Are you sure to delete {category.name} category ?
             </h1>
           )}
+          {event && (
+            <h1 className="card-title font-mono">
+              Are you sure to delete {event.name} event ?
+            </h1>
+          )}
           <div className="card-actions justify-center">
             {admin && (
               <button
@@ -71,6 +89,14 @@ export default function Modal({ visible, onClose, admin, category }) {
             {category && (
               <button
                 onClick={handleDeleteCategory}
+                className="btn btn-primary btn-xs sm:btn-sm md:btn-md w-1/3"
+              >
+                Yes
+              </button>
+            )}
+            {event && (
+              <button
+                onClick={handleDeleteEvent}
                 className="btn btn-primary btn-xs sm:btn-sm md:btn-md w-1/3"
               >
                 Yes
@@ -94,4 +120,5 @@ Modal.propTypes = {
   onClose: PropTypes.func,
   admin: PropTypes.object,
   category: PropTypes.object,
+  event: PropTypes.object,
 };

@@ -46,7 +46,7 @@ export default function TableRow({ event }) {
       <DeleteModal
         visible={deleteModal}
         onClose={handleOnCloseDelete}
-        category={event}
+        event={event}
       />
       <EventForm
         visible={eventModal}
