@@ -2,21 +2,30 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import EventForm from "../components/EventForm";
 import DeleteModal from "../components/DeleteModal";
+import { useNavigate } from "react-router-dom";
 
 export default function TableRow({ event }) {
+  const navigate = useNavigate();
   const [deleteModal, setDeleteModal] = useState(false);
   const handleOnCloseDelete = () => setDeleteModal(false);
 
   const [eventModal, setEventModal] = useState(false);
   const handleOnCloseEvent = () => setEventModal(false);
 
+  const showDetail = () => {
+    navigate("/detail/" + event.id);
+  };
+
   return (
     <>
-      <tr className="hover font-mono text-black font-bold text-lg">
+      <tr
+        className="hover font-mono text-black font-bold text-lg"
+        onClick={showDetail}
+      >
         <td>{event.name}</td>
         <td>
           <div className="avatar w-24 rounded-full">
-            <img src={event.pics} alt={event.title} />
+            <img src={event.pics} alt={event.name} />
           </div>
         </td>
         <td>{event.Category.name}</td>

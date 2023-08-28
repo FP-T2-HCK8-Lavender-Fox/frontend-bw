@@ -5,6 +5,7 @@ const baseUrl = "http://localhost:3000";
 const initialState = {
   loading: false,
   events: [],
+  event: {},
   error: "",
   msg: "",
 };
@@ -20,6 +21,22 @@ export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
     const response = await fetch(baseUrl + "/events", options);
     const events = await response.json();
     return events;
+  } catch (error) {
+    return error;
+  }
+});
+
+export const fetchEventById = createAsyncThunk("events/fetchEventById", async (id) => {
+  try {
+    let options = {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(baseUrl + "/events/" + id, options);
+    const event = await response.json();
+    return event;
   } catch (error) {
     return error;
   }
@@ -112,6 +129,20 @@ const eventsSlice = createSlice({
       })
 
       .addCase(fetchEvents.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(fetchEventById.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(fetchEventById.fulfilled, (state, action) => {
+        state.event = action.payload;
+        state.loading = false;
+      })
+
+      .addCase(fetchEventById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

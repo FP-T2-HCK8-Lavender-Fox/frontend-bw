@@ -4,6 +4,7 @@ import EventForm from "../components/EventForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents } from "../store/eventReducer";
 
+
 export default function Movie() {
   const dispatch = useDispatch();
   const { events, loading, error, msg } = useSelector((state) => state.event);
@@ -69,7 +70,7 @@ export default function Movie() {
                   </thead>
                   <tbody>
                     {events.map((event) => {
-                      return <EventRow key={event.id} event={event} />;
+                      return <EventRow event={event} key={event.id} />;
                     })}
                   </tbody>
                 </table>
