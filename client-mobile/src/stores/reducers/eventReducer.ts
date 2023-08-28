@@ -65,3 +65,37 @@ export const addEventToUser = createAsyncThunk(
     }
   }
 );
+
+export const getEventsOfUsers = createAsyncThunk(
+  "events/getEventsOfUser",
+  async () => {
+    try {
+      const { data } = await api.get("/users-event/users/", {
+        headers: {
+          access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
+        },
+      });
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const getEventOfUserByEventId = createAsyncThunk(
+  "events/getEventsOfUserById",
+  async (eventId: number) => {
+    try {
+      const { data } = await api.get(`/users-event/${eventId}`, {
+        headers: {
+          access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
+        },
+      });
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
