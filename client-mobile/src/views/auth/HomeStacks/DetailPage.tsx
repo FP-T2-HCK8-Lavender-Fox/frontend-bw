@@ -11,8 +11,8 @@ import { Button, Image, ScrollView, View, Text, Paragraph } from "tamagui";
 import { Events } from "../../../models/events";
 import { Calendar } from "react-native-calendars";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import GatewayView from "../../../components/GatewayView";
 import { useNavigation } from "@react-navigation/native";
+import IsLoading from "../../../components/IsLoading";
 
 export default function DetailPage({ route }: { route: any }) {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -42,21 +42,11 @@ export default function DetailPage({ route }: { route: any }) {
     //@ts-ignore
     navigation.navigate("GatewayView", {
       uri: paymentUri.redirect_url,
+      eventId: id,
     });
   }
 
   const [modalOpen, setModalOpen] = React.useState(false);
-  const [mapLocation, setMapLocation] = React.useState<{
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  }>({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: 0.008,
-    longitudeDelta: 0.007,
-  });
 
   const event: Events = useSelector(
     (state: RootState) => state.events.events.eventById
@@ -70,19 +60,10 @@ export default function DetailPage({ route }: { route: any }) {
 
   React.useEffect(() => {
     dispatch(getEventById(id));
-    setMapLocation({
-      ...mapLocation,
-      latitude: Number(event.lat),
-      longitude: Number(event.long),
-    });
   }, [dispatch]);
 
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <IsLoading />;
   }
   return (
     <>
@@ -96,9 +77,23 @@ export default function DetailPage({ route }: { route: any }) {
             width: Dimensions.get("window").width,
             height: 200,
           }}
-          region={mapLocation}
+          region={{
+            latitude: Number(event.lat),
+            longitude: Number(event.long),
+            latitudeDelta: 0.008,
+            longitudeDelta: 0.007,
+          }}
         >
-          <Marker coordinate={mapLocation} title="Marker" />
+          <Marker
+            coordinate={{
+              latitude: Number(event.lat),
+              longitude: Number(event.long),
+              // @ts-ignore
+              latitudeDelta: 0.008,
+              longitudeDelta: 0.007,
+            }}
+            title="Marker"
+          />
         </MapView>
         <View
           paddingHorizontal={20}
