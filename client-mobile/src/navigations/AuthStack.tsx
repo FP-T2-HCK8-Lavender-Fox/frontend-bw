@@ -5,12 +5,11 @@ import React from "react";
 import MainTabs from "./MainTabs";
 import RegisterPage from "../views/unauth/RegisterPage";
 import { useAuth } from "../context/AuthContext";
-import { Button } from "tamagui";
 
 const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
-  const { authState, onLogout } = useAuth();
+  const { authState } = useAuth();
 
   return (
     <Stack.Navigator>
@@ -19,7 +18,7 @@ export default function AuthStack() {
           name="MainTabs"
           component={MainTabs}
           options={{
-            headerRight: () => <Button onPress={onLogout}>Logout</Button>,
+            headerShown: false,
           }}
         />
       ) : (

@@ -3,6 +3,7 @@ import {
   getEvents,
   getEventById,
   addEventToUser,
+  postPayment,
 } from "../reducers/eventReducer";
 
 export const eventsSlice = createSlice({
@@ -29,6 +30,10 @@ export const eventsSlice = createSlice({
         Admin: null,
         Category: null,
       },
+      paymentUri: {
+        token: "",
+        redirect_url: "",
+      },
       isLoading: false,
       isError: false,
     },
@@ -50,6 +55,9 @@ export const eventsSlice = createSlice({
     [getEventById.fulfilled.type]: (state, { payload }) => {
       state.events.isLoading = false;
       state.events.eventById = payload;
+    },
+    [postPayment.fulfilled.type]: (state, { payload }) => {
+      state.events.paymentUri = payload;
     },
     [addEventToUser.pending.type]: (state, action) => {
       state.events.isLoading = true;

@@ -25,12 +25,32 @@ export const getEventById = createAsyncThunk(
   }
 );
 
+export const postPayment = createAsyncThunk("events/postPayment", async () => {
+  try {
+    const { data } = await api.post(
+      "payment-token",
+      {
+        amount: 100000,
+      },
+      {
+        headers: {
+          access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
+        },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const addEventToUser = createAsyncThunk(
   "events/postUserEvent",
   async (eventId: number) => {
     try {
       const { data } = await api.post(
-        `/user-event/${eventId}`,
+        `/users-event/${eventId}`,
         {},
         {
           headers: {

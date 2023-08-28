@@ -5,6 +5,12 @@ import * as SecureStore from "expo-secure-store";
 interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };
   onLogin?: (email: string, password: string) => Promise<any>;
+  onRegister?: (
+    email: string,
+    name: string,
+    password: string,
+    gender: string
+  ) => Promise<any>;
   onLogout?: () => Promise<any>;
 }
 
@@ -69,6 +75,34 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
+  const register = async (
+    email: string,
+    name: string,
+    password: string,
+    gender: string
+  ) => {
+    try {
+      const { data } = await api.post(
+        "/users/register",
+        {
+          email,
+          name,
+          password,
+          gender,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return data;
+    } catch (error) {
+      return { error: true, msg: (error as any).response.data.msg };
+    }
+  };
+
   const logout = async () => {
     await SecureStore.deleteItemAsync("ACCESS_TOKEN");
 
@@ -82,6 +116,7 @@ export const AuthProvider = ({ children }: any) => {
 
   const value = {
     onLogin: login,
+    onRegister: register,
     onLogout: logout,
     authState,
   };
