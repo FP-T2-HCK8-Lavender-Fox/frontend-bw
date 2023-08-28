@@ -1,12 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import QRCode from "qrcode";
 
 const baseUrl = "http://localhost:3000";
 
 const initialState = {
-  loading: false,
+  checkpointLoading: false,
   checkpoints: [],
-  error: "",
+  chekcpointError: "",
+  qr: [],
 };
+
+export const generateQR = createAsyncThunk(
+  "checkpoints/generateQr",
+  async (checkpoints) => {
+    let qr = [];
+    try {
+      for (const i of checkpoints) {
+        let temp = await QRCode.toDataURL(JSON.stringify(i));
+        qr.push(temp);
+      }
+      return qr;
+    } catch (err) {
+      return err;
+    }
+  }
+);
 
 export const fetchCheckpointsByEventId = createAsyncThunk(
   "checkpoints/fetchCheckpointsByEventId",
@@ -38,21 +56,36 @@ const checkpointsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCheckpointsByEventId.pending, (state) => {
-        state.loading = true;
+        state.checkpointLoading = true;
       })
 
       .addCase(fetchCheckpointsByEventId.fulfilled, (state, action) => {
-        state.loading = false;
+        state.checkpointLoading = false;
         state.checkpoints = action.payload;
+        // state.qr = state.payload.qr;
       })
 
       .addCase(fetchCheckpointsByEventId.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
+        state.checkpointLoading = false;
+        state.chekcpointError = action.error.message;
+      })
+
+      .addCase(generateQR.pending, (state) => {
+        state.checkpointLoading = true;
+      })
+
+      .addCase(generateQR.fulfilled, (state, action) => {
+        state.checkpointLoading = false;
+        state.qr = action.payload;
+      })
+
+      .addCase(generateQR.rejected, (state, action) => {
+        state.checkpointLoading = false;
+        state.chekcpointError = action.error.message;
       });
   },
 });
 
-export const { setAdmin, setMsg } = checkpointsSlice.actions;
+export const { setMsg } = checkpointsSlice.actions;
 
 export default checkpointsSlice.reducer;
