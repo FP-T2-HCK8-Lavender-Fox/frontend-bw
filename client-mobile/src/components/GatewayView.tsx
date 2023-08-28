@@ -1,18 +1,23 @@
 import { WebView } from "react-native-webview";
-import { ActivityIndicator, ToastAndroid } from "react-native";
+import { ToastAndroid } from "react-native";
 import React from "react";
 import { View } from "tamagui";
 import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch } from "../stores/store";
+import { addEventToUser } from "../stores/reducers/eventReducer";
+import IsLoading from "./IsLoading";
 
 export default function GatewayView({ route }: any) {
-  const { uri } = route.params;
+  const { uri, eventId } = route.params;
   const navigation = useNavigation();
   const [paymentUri, setPaymentUri] = React.useState("");
   const [isLoading, setLoading] = React.useState(true);
+  const [isPaid, setPaid] = React.useState(false);
+  const dispatch = useAppDispatch();
 
   const paymentToast = () => {
     ToastAndroid.showWithGravity(
-      "Successfully paid",
+      "Successfully registered",
       ToastAndroid.SHORT,
       ToastAndroid.CENTER
     );
@@ -24,20 +29,20 @@ export default function GatewayView({ route }: any) {
   });
 
   const checkPayment = (newNavState: any) => {
-    if (newNavState.url.includes("success")) {
+    if (newNavState.url.includes("success") && !isPaid) {
       paymentToast();
+      dispatch(addEventToUser(eventId));
       setTimeout(() => {
         // @ts-ignore
         navigation.navigate("HomePage");
       }, 300);
+      setPaid(true);
     }
   };
   return (
     <>
       {isLoading && paymentUri === "" ? (
-        <View position="absolute" right={0} left={0} top="50%">
-          <ActivityIndicator size="large" color="blue" />
-        </View>
+        <IsLoading />
       ) : (
         <View flex={1} marginBottom={100}>
           <WebView

@@ -5,6 +5,7 @@ import { RootState, useAppDispatch } from "../../../stores/store";
 import { getEvents } from "../../../stores/reducers/eventReducer";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import IsLoading from "../../../components/IsLoading";
 
 export default function HomePage() {
   const navigation = useNavigation();
@@ -21,6 +22,9 @@ export default function HomePage() {
     dispatch(getEvents());
   }, [dispatch]);
 
+  if (eventLoading) {
+    return <IsLoading />;
+  }
   return (
     <FlatList
       data={eventList}
