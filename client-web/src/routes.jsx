@@ -1,5 +1,6 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
-import Event from "./Views/Event";
+import EventPage from "./Views/EventPage";
+import AddEvent from "./Views/AddEvent";
 import Admin from "./Views/Admin";
 import Category from "./Views/Category";
 import Login from "./Views/Login";
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Event />,
+        element: <EventPage />,
       },
       {
         path: "/admins",
@@ -27,8 +28,16 @@ const router = createBrowserRouter([
         element: <Category />,
       },
       {
-        path: "/detail/:id",
+        path: "/events/:id",
         element: <DetailEvent />,
+      },
+      {
+        path: "/add-events",
+        element: <AddEvent />,
+      },
+      {
+        path: "/edit-events/:id",
+        element: <AddEvent />,
       },
     ],
   },

@@ -4,6 +4,8 @@ import categoryReducer from "./categoryReducer";
 import eventReducer from "./eventReducer";
 import checkpointReducer from "./checkpointReducer";
 import adminReducer from "./adminReducer";
+import userReducer from "./userReducer";
+import leaderboardsReducer from "./leaderboardsReducer";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +13,8 @@ const store = configureStore({
     event: eventReducer,
     category: categoryReducer,
     checkpoint: checkpointReducer,
+    user: userReducer,
+    leaderboard: leaderboardsReducer
   },
 });
 

@@ -5,12 +5,12 @@ import TheSidebar from "./TheSideBar";
 export default function Layout() {
   return (
     <>
-      <div className="flex">
+      <div className="flex overflow-hidden">
         {/* <Navbar /> */}
-        <div className="fixed z-50 flex">
+        <div className="z-50">
           <TheSidebar />
         </div>
-        <div className="ml-40">
+        <div className="ml-20 h-screen flex flex-col">
           <Outlet />
         </div>
       </div>

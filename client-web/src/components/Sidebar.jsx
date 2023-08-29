@@ -24,7 +24,7 @@ export default function Sidebar({ children }) {
           />
           <button
             onClick={() => setExpanded((el) => !el)}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+            className="p-1.5 rounded-lg bg-gray-50 hover:bg-neutral"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
