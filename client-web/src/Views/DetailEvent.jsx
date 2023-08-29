@@ -162,14 +162,14 @@ export default function Admin() {
                     leaderboardLoading ? (
                       <span className="  loading loading-spinner w-28 text-neutral"></span>
                     ) : (
-                      dataUsers.map((el) => {
+                      leaderboards.map((el, i) => {
                         return (
                           <tr
-                            key={el.UserId}
+                            key={dataUsers[i].UserId}
                             className="font-mono text-black font-bold text-lg"
                           >
-                            <td>{el.User.name}</td>
-                            <td>{el.point}</td>
+                            <td>{dataUsers[i].User.name}</td>
+                            <td>{dataUsers[i].point}</td>
                           </tr>
                         );
                       })
