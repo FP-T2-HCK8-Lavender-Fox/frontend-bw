@@ -31,7 +31,7 @@ export default function DetailMyEvent({ route }: any) {
   React.useEffect(() => {
     dispatch(getEventOfUserByEventId(id));
     userLocation();
-  }, [dispatch]);
+  }, [dispatch, route]);
 
   const loading = useSelector(
     (state: RootState) => state.events.events.isLoading
@@ -68,18 +68,21 @@ export default function DetailMyEvent({ route }: any) {
       id: id,
     });
   };
-  console.log(event);
-  // if(now < eventDate) //event belum mulai
-  // if (now > eventDate && now < eventEndDate) //event sedang berjalan
-  // if(now > eventEndDate) //event selesai
 
-  if (loading) {
+  const goToCamera = () => {
+    // @ts-ignore
+    navigation.navigate("CameraForQuiz", {
+      fixQuiz: fixQuiz,
+    });
+  };
+
+  if (loading || fixQuiz.length === 0) {
     return <IsLoading />;
   }
   if (error) {
     return (
       <View>
-        <Text>Please Grant Camera Permission to Use This App</Text>
+        <Text>Please Grant Location Permission to Use This App</Text>
       </View>
     );
   }
@@ -183,9 +186,9 @@ export default function DetailMyEvent({ route }: any) {
           </>
         ) : now > eventDate && now < eventEndDate ? (
           <>
-            {!fixQuiz[0].trueOrFalse &&
-            !fixQuiz[1].trueOrFalse &&
-            !fixQuiz[2].trueOrFalse ? (
+            {fixQuiz[0].trueOrFalse === null ||
+            fixQuiz[1].trueOrFalse === null ||
+            fixQuiz[2].trueOrFalse === null ? (
               <>
                 <MapView
                   style={{
@@ -284,6 +287,7 @@ export default function DetailMyEvent({ route }: any) {
                     marginVertical={10}
                     backgroundColor={"#000000"}
                     color={"white"}
+                    onPress={goToCamera}
                   >
                     Go To Camera
                   </Button>
