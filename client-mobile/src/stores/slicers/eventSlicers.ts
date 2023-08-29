@@ -6,6 +6,7 @@ import {
   postPayment,
   getEventsOfUsers,
   getEventOfUserByEventId,
+  pushUserAnswer,
 } from "../reducers/eventReducer";
 
 export const eventsSlice = createSlice({
@@ -135,6 +136,12 @@ export const eventsSlice = createSlice({
     },
     [getEventOfUserByEventId.fulfilled.type]: (state, { payload }) => {
       state.events.eventOfUserById = payload;
+      state.events.isLoading = false;
+    },
+    [pushUserAnswer.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [pushUserAnswer.fulfilled.type]: (state, action) => {
       state.events.isLoading = false;
     },
   },

@@ -5,6 +5,7 @@ import MyEvents from "../../views/auth/EventStacks/MyEvents";
 import DetailMyEvent from "../../views/auth/EventStacks/DetailMyEvent";
 import OtherParticipants from "../../views/auth/EventStacks/OtherParticipants";
 import CameraQuestion from "../../views/auth/EventStacks/CameraQuestion";
+import QuizSection from "../../views/auth/EventStacks/QuizSection";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,11 @@ export default function EventStack() {
       <Stack.Screen
         name="CameraForQuiz"
         component={CameraQuestion}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="QuizSection"
+        component={QuizSection}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
