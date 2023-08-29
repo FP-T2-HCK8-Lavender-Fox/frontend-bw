@@ -12,7 +12,7 @@ export default function Admin() {
   const dispatch = useDispatch();
   let { id } = useParams();
 
-  const { event, loading, error } = useSelector((state) => state.event);
+  const { event: {dataEvent} , loading, error } = useSelector((state) => state.event);
   const { checkpoints, qr, checkpointLoading, checkpointError } = useSelector(
     (state) => state.checkpoint
   );
@@ -35,21 +35,21 @@ export default function Admin() {
         <span className="loading loading-spinner text-neutral"></span>
       )}
       {!loading && error ? <div>Error: {error}</div> : null}
-      {!loading && Object.values(event).length > 1 ? (
+      {!loading && dataEvent ? (
         <>
           <div className="hero bg-base-100 h-screen">
             <div className="hero-content flex-col lg:flex-row">
               <img
-                src={event.pics}
+                src={dataEvent.pics}
                 className="max-w-sm rounded-lg shadow-2xl bg-neutral"
               />
               <div>
                 <h1 className="text-5xl font-bold">
-                  {event.name.toUpperCase()}
+                  {dataEvent.name.toUpperCase()}
                 </h1>
-                <p>by {event.Admin.username}</p>
+                <p>by {dataEvent.Admin.username}</p>
                 <div className="flex pt-6 justify-around">
-                  <p className="text-left">Address: {event.address}</p>
+                  <p className="text-left">Address: {dataEvent.address}</p>
                   <p>hahah</p>
                 </div>
                 <p className="py-2 text-left">
