@@ -2,8 +2,10 @@ import { XStack, Text } from "tamagui";
 // @ts-ignore
 import Ionicons from "react-native-vector-icons/Ionicons";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function FriendTheList({ friends }: any) {
+  const navigation = useNavigation();
   return (
     <XStack
       paddingHorizontal={60}
@@ -22,7 +24,15 @@ export default function FriendTheList({ friends }: any) {
       >
         {friends.name}
       </Text>
-      <Ionicons size={30} name={"chatbubbles"} color={"#87ceeb"} />
+      <Ionicons
+        onPress={() => {
+          // @ts-ignore
+          navigation.navigate("Chat", { friends });
+        }}
+        size={30}
+        name={"chatbubbles"}
+        color={"#87ceeb"}
+      />
     </XStack>
   );
 }
