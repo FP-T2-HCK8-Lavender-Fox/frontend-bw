@@ -62,7 +62,7 @@ export default function DetailPage({ route }: { route: any }) {
     dispatch(getEventById(id));
   }, [dispatch]);
 
-  if (loading) {
+  if (loading || !event) {
     return <IsLoading />;
   }
   return (
