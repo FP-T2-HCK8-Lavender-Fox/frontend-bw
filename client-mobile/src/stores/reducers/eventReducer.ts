@@ -16,9 +16,9 @@ export const getEventById = createAsyncThunk(
   "events/getEventsById",
   async (eventId: number) => {
     try {
-      const { data } = await api.get(`/events/${eventId}`);
+      const { data } = await api.get(`/events/detail/${eventId}`);
 
-      return data;
+      return data.data;
     } catch (error) {
       console.log(error);
     }
@@ -28,7 +28,7 @@ export const getEventById = createAsyncThunk(
 export const postPayment = createAsyncThunk("events/postPayment", async () => {
   try {
     const { data } = await api.post(
-      "payment-token",
+      "/payment-token",
       {
         amount: 100000,
       },
