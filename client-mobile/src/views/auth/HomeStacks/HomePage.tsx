@@ -5,6 +5,8 @@ import { RootState, useAppDispatch } from "../../../stores/store";
 import { getEvents } from "../../../stores/reducers/eventReducer";
 import { useSelector } from "react-redux";
 import IsLoading from "../../../components/IsLoading";
+import HeaderComponent from "../../../components/HeaderComponent";
+import { XStack, Text } from "tamagui";
 
 export default function HomePage({ navigation, route }: any) {
   const dispatch = useAppDispatch();
@@ -18,13 +20,21 @@ export default function HomePage({ navigation, route }: any) {
 
   React.useEffect(() => {
     dispatch(getEvents());
-  }, [dispatch]);
+  }, [dispatch, route]);
 
   if (eventLoading) {
     return <IsLoading />;
   }
   return (
     <FlatList
+      ListHeaderComponent={
+        <>
+          <HeaderComponent />
+          <XStack>
+            <Text>Home Page</Text>
+          </XStack>
+        </>
+      }
       data={eventList}
       renderItem={({ item }) => (
         <EventsCard navigation={navigation} events={item} route={route} />

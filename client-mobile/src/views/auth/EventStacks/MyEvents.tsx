@@ -6,13 +6,16 @@ import { useSelector } from "react-redux";
 import IsLoading from "../../../components/IsLoading";
 import { UserEvents } from "../../../models/userEvents";
 import { EventsCard } from "../../../components/EventsCard";
+import HeaderComponent from "../../../components/HeaderComponent";
+import { XStack } from "tamagui";
+import { Text } from "tamagui";
 
 export default function MyEvents({ navigation, route }: any) {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     dispatch(getEventsOfUsers());
-  }, [dispatch]);
+  }, [dispatch, route]);
 
   const loading = useSelector(
     (state: RootState) => state.events.events.isLoading
@@ -46,6 +49,14 @@ export default function MyEvents({ navigation, route }: any) {
   }
   return (
     <FlatList
+      ListHeaderComponent={
+        <>
+          <HeaderComponent />
+          <XStack>
+            <Text>My Event Page</Text>
+          </XStack>
+        </>
+      }
       data={eventList}
       renderItem={({ item }) => (
         <EventsCard navigation={navigation} events={item} route={route} />

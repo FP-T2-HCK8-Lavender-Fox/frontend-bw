@@ -7,6 +7,14 @@ import {
   getEventsOfUsers,
   getEventOfUserByEventId,
   pushUserAnswer,
+  getParticipants,
+  getFriendList,
+  getSelf,
+  postFriendship,
+  getFriendToAcceptList,
+  getFriendListOfUser,
+  acceptFriendRequest,
+  rejectFriendRequest,
 } from "../reducers/eventReducer";
 
 export const eventsSlice = createSlice({
@@ -93,6 +101,22 @@ export const eventsSlice = createSlice({
         token: "",
         redirect_url: "",
       },
+      eventParticipants: [],
+      friendList: [],
+      userSelf: {
+        id: null,
+        name: null,
+        gender: null,
+        birthDate: null,
+        email: null,
+        phoneNumber: null,
+        address: null,
+        ktpId: null,
+        createdAt: null,
+        updatedAt: null,
+      },
+      userNeedAccept: [],
+      allUserFriendIs: [],
       isLoading: false,
       isError: false,
     },
@@ -142,6 +166,53 @@ export const eventsSlice = createSlice({
       state.events.isLoading = true;
     },
     [pushUserAnswer.fulfilled.type]: (state, action) => {
+      state.events.isLoading = false;
+    },
+    [getParticipants.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getParticipants.fulfilled.type]: (state, { payload }) => {
+      state.events.eventParticipants = payload;
+      state.events.isLoading = false;
+    },
+    [getFriendList.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getFriendList.fulfilled.type]: (state, { payload }) => {
+      state.events.friendList = payload;
+      state.events.isLoading = false;
+    },
+    [getSelf.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getSelf.fulfilled.type]: (state, { payload }) => {
+      state.events.userSelf = payload;
+      state.events.isLoading = false;
+    },
+    [getFriendToAcceptList.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getFriendToAcceptList.fulfilled.type]: (state, { payload }) => {
+      state.events.userNeedAccept = payload;
+      state.events.isLoading = false;
+    },
+    [getFriendListOfUser.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getFriendListOfUser.fulfilled.type]: (state, { payload }) => {
+      state.events.allUserFriendIs = payload;
+      state.events.isLoading = false;
+    },
+    [acceptFriendRequest.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [acceptFriendRequest.fulfilled.type]: (state, action) => {
+      state.events.isLoading = false;
+    },
+    [rejectFriendRequest.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [rejectFriendRequest.fulfilled.type]: (state, action) => {
       state.events.isLoading = false;
     },
   },
