@@ -5,9 +5,11 @@ import { Events } from "../models/events";
 export const EventsCard = ({
   events,
   navigation,
+  route,
 }: {
-  events: Events;
+  events: any;
   navigation: any;
+  route: any;
 }) => {
   return (
     <XStack
@@ -87,9 +89,13 @@ export const EventsCard = ({
           <XStack flex={1} />
           <Button
             onPress={() =>
-              navigation.navigate("DetailHomePage", {
-                id: events.id,
-              })
+              route.name === "HomePage"
+                ? navigation.navigate("DetailHomePage", {
+                    id: events.id,
+                  })
+                : navigation.navigate("DetailMyEvent", {
+                    id: events.id,
+                  })
             }
             position="absolute"
             right={20}

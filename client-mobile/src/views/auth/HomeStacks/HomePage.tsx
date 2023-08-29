@@ -4,11 +4,9 @@ import { EventsCard } from "../../../components/EventsCard";
 import { RootState, useAppDispatch } from "../../../stores/store";
 import { getEvents } from "../../../stores/reducers/eventReducer";
 import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import IsLoading from "../../../components/IsLoading";
 
-export default function HomePage() {
-  const navigation = useNavigation();
+export default function HomePage({ navigation, route }: any) {
   const dispatch = useAppDispatch();
 
   const eventList = useSelector(
@@ -29,7 +27,7 @@ export default function HomePage() {
     <FlatList
       data={eventList}
       renderItem={({ item }) => (
-        <EventsCard navigation={navigation} events={item} />
+        <EventsCard navigation={navigation} events={item} route={route} />
       )}
       keyExtractor={({ id }) => id}
     ></FlatList>

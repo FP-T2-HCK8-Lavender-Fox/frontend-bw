@@ -135,7 +135,7 @@ export default function DetailPage({ route }: { route: any }) {
             <Text fontSize={15} fontWeight={"700"}>
               Start :
             </Text>{" "}
-            {new Date(event.startDate).toLocaleDateString("id-ID", {
+            {new Date(event.startDate).toLocaleDateString("en-EN", {
               weekday: "long",
               year: "numeric",
               month: "long",
@@ -149,7 +149,7 @@ export default function DetailPage({ route }: { route: any }) {
             <Text fontSize={15} fontWeight={"700"}>
               End :
             </Text>{" "}
-            {new Date(event.endDate).toLocaleDateString("id-ID", {
+            {new Date(event.endDate).toLocaleDateString("en-EN", {
               weekday: "long",
               year: "numeric",
               month: "long",

@@ -41,7 +41,8 @@
     "react-native-web": "^0.19.7",
     "react-native-webview": "^13.4.0",
     "react-redux": "^8.1.2",
-    "tamagui": "^1.55.2"
+    "tamagui": "^1.55.2",
+    "expo-location": "~16.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

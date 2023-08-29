@@ -4,6 +4,8 @@ import {
   getEventById,
   addEventToUser,
   postPayment,
+  getEventsOfUsers,
+  getEventOfUserByEventId,
 } from "../reducers/eventReducer";
 
 export const eventsSlice = createSlice({
@@ -29,6 +31,62 @@ export const eventsSlice = createSlice({
         updatedAt: null,
         Admin: null,
         Category: null,
+      },
+      eventsOfUser: [],
+      eventOfUserById: {
+        dataEvents: {
+          UserId: null,
+          EventId: null,
+          point: null,
+          createdAt: null,
+          updatedAt: null,
+          User: {
+            id: null,
+            name: null,
+            gender: null,
+            birthDate: null,
+            email: null,
+            phoneNumber: null,
+            address: null,
+            ktpId: null,
+            createdAt: null,
+            updatedAt: null,
+          },
+          Event: {
+            id: null,
+            name: null,
+            startDate: "",
+            endDate: "",
+            active: null,
+            description: null,
+            amount: null,
+            address: null,
+            lat: null,
+            long: null,
+            pics: undefined,
+            CategoryId: null,
+            AdminId: null,
+            createdAt: null,
+            updatedAt: null,
+            Category: {
+              id: 0,
+              name: "",
+              createdAt: "",
+              updatedAt: "",
+            },
+            Admin: {
+              id: 0,
+              username: "",
+              name: "",
+              email: "",
+              createdAt: "",
+              updatedAt: "",
+            },
+          },
+        },
+        checkpointData: [],
+        answerQuizData: [],
+        leaderboard: null,
       },
       paymentUri: {
         token: "",
@@ -63,6 +121,20 @@ export const eventsSlice = createSlice({
       state.events.isLoading = true;
     },
     [addEventToUser.fulfilled.type]: (state, action) => {
+      state.events.isLoading = false;
+    },
+    [getEventsOfUsers.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getEventsOfUsers.fulfilled.type]: (state, { payload }) => {
+      state.events.eventsOfUser = payload;
+      state.events.isLoading = false;
+    },
+    [getEventOfUserByEventId.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getEventOfUserByEventId.fulfilled.type]: (state, { payload }) => {
+      state.events.eventOfUserById = payload;
       state.events.isLoading = false;
     },
   },
