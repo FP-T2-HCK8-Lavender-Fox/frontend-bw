@@ -13,7 +13,7 @@ export default function TableRow({ event }) {
   const handleOnCloseEvent = () => setEventModal(false);
 
   const showDetail = (e) => {
-    if (e.target.id === "container") navigate("/detail/" + event.id);
+    if (e.target.id === "container") navigate("/events/" + event.id);
   };
 
   return (

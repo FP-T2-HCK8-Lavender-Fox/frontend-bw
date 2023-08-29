@@ -5,16 +5,31 @@ import {
   fetchCheckpointsByEventId,
   generateQR,
 } from "../store/checkpointReducer";
+import {
+  fetchLeaderboards,
+  postLeaderboard,
+} from "../store/leaderboardsReducer";
 import { useParams } from "react-router-dom";
 import QrModal from "../components/QrModal";
+import moment from "moment";
+import { Plus } from "lucide-react";
 
 export default function Admin() {
   const dispatch = useDispatch();
   let { id } = useParams();
 
-  const { event: {dataEvent} , loading, error } = useSelector((state) => state.event);
+  const {
+    event: { dataEvent, dataUsers },
+    loading,
+    error,
+  } = useSelector((state) => state.event);
+
   const { checkpoints, qr, checkpointLoading, checkpointError } = useSelector(
     (state) => state.checkpoint
+  );
+
+  const { leaderboards, leaderboardLoading } = useSelector(
+    (state) => state.leaderboard
   );
   const [qrModal, setQrModal] = useState(false);
   const handleOnClose = () => setQrModal(false);
@@ -24,33 +39,63 @@ export default function Admin() {
     setQrModal(true);
   };
 
+  const handleCreateLeaderboard = async () => {
+    let data = [];
+    for (let i = 0; i < 3; i++) {
+      if (dataUsers[i]) {
+        const { UserId, EventId } = dataUsers[i];
+        data.push({ UserId, EventId, position: Number(i) + 1 });
+      }
+    }
+    await dispatch(postLeaderboard(data));
+    await dispatch(fetchLeaderboards(id));
+  };
+
   useEffect(() => {
     dispatch(fetchEventById(id));
     dispatch(fetchCheckpointsByEventId(id));
+    dispatch(fetchLeaderboards(id));
   }, []);
 
   return (
     <>
       {loading && (
-        <span className="loading loading-spinner text-neutral"></span>
+        <div className="mt-72 ml-96 pl-48 min-h-screen ">
+          <span className="  loading loading-spinner w-28 text-neutral"></span>
+        </div>
       )}
       {!loading && error ? <div>Error: {error}</div> : null}
       {!loading && dataEvent ? (
-        <>
-          <div className="hero bg-base-100 h-screen">
+        <div className="border mt-14 mb-20 shadow-2xl rounded-2xl overflow-y-auto">
+          <div className="">
             <div className="hero-content flex-col lg:flex-row">
               <img
                 src={dataEvent.pics}
-                className="max-w-sm rounded-lg shadow-2xl bg-neutral"
+                className="max-w-sm rounded-lg shadow-md bg-neutral"
               />
               <div>
                 <h1 className="text-5xl font-bold">
                   {dataEvent.name.toUpperCase()}
                 </h1>
                 <p>by {dataEvent.Admin.username}</p>
+                <p className="my-1 badge badge-neutral">
+                  {dataEvent.Category.name}
+                </p>
                 <div className="flex pt-6 justify-around">
-                  <p className="text-left">Address: {dataEvent.address}</p>
-                  <p>hahah</p>
+                  <div>
+                    <p>
+                      Prize pool:{" "}
+                      {new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(dataEvent.amount)}
+                    </p>
+                    <p className="text-left">Address: {dataEvent.address}</p>
+                  </div>
+                  <div>
+                    <p>Start : {moment(dataEvent.startDate).format("LLLL")}</p>
+                    <p>End : {moment(dataEvent.endDate).format("LLLL")}</p>
+                  </div>
                 </div>
                 <p className="py-2 text-left">
                   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio
@@ -64,10 +109,46 @@ export default function Admin() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row w-full min-h-screen">
+          <div className="hero">
+            <div className="hero-content flex-col">
+              <p>Participant List</p>
+              <div>
+                {dataUsers.map((el) => {
+                  return (
+                    <div key={el.UserId} className="avatar placeholder m-1">
+                      <div className="bg-neutral text-neutral-content rounded-full w-12">
+                        <span>
+                          {el.User.name
+                            .match(/(^[a-z]|\s[a-z])/gi)
+                            .join("")
+                            .split(" ")
+                            .join("")
+                            .toUpperCase()}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className=" flex flex-col lg:flex-row w-full mb-36">
             <div className="grid flex-grow h-48 card items-center m-10 p-10">
-              <div className="flex flex-row justify-between mb-2">
-                <h2 className="text-bold text-2xl font-mono">Participants</h2>
+              <div className="flex flex-row justify-between mb-2 leading-4">
+                <h2 className="text-bold text-2xl font-mono">Leaderboards</h2>
+                {leaderboards.length ? null : (
+                  <div
+                    className="tooltip float-right tooltip-right"
+                    data-tip="Create Leaderboards"
+                  >
+                    <button
+                      className="btn btn-primary btn-sm btn-circle"
+                      onClick={handleCreateLeaderboard}
+                    >
+                      <Plus />
+                    </button>
+                  </div>
+                )}
               </div>
               <table className="table rounded-full">
                 <thead>
@@ -77,18 +158,23 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody className="bg-yellow-300">
-                  <tr className="font-mono text-black font-bold text-lg">
-                    <td>tes</td>
-                    <td>tes</td>
-                  </tr>
-                  <tr className="font-mono text-black font-bold text-lg">
-                    <td>tes</td>
-                    <td>tes</td>
-                  </tr>
-                  <tr className="font-mono text-black font-bold text-lg">
-                    <td>tes</td>
-                    <td>tes</td>
-                  </tr>
+                  {leaderboards.length ? (
+                    leaderboardLoading ? (
+                      <span className="  loading loading-spinner w-28 text-neutral"></span>
+                    ) : (
+                      dataUsers.map((el) => {
+                        return (
+                          <tr
+                            key={el.UserId}
+                            className="font-mono text-black font-bold text-lg"
+                          >
+                            <td>{el.User.name}</td>
+                            <td>{el.point}</td>
+                          </tr>
+                        );
+                      })
+                    )
+                  ) : null}
                 </tbody>
               </table>
             </div>
@@ -118,28 +204,25 @@ export default function Admin() {
                     </tr>
                   </thead>
                   <tbody className="bg-yellow-300">
-                    <tr className="font-mono text-black font-bold text-lg">
-                      <td>{checkpoints[0].name}</td>
-                      <td>{checkpoints[0].lat}</td>
-                      <td>{checkpoints[0].long}</td>
-                    </tr>
-                    <tr className="font-mono text-black font-bold text-lg">
-                      <td>{checkpoints[1].name}</td>
-                      <td>{checkpoints[0].lat}</td>
-                      <td>{checkpoints[0].long}</td>
-                    </tr>
-                    <tr className="font-mono text-black font-bold text-lg">
-                      <td>{checkpoints[2].name}</td>
-                      <td>{checkpoints[0].lat}</td>
-                      <td>{checkpoints[0].long}</td>
-                    </tr>
+                    {checkpoints.map((el) => {
+                      return (
+                        <tr
+                          key={el.id}
+                          className="font-mono text-black font-bold text-lg"
+                        >
+                          <td>{el.name}</td>
+                          <td>{el.lat}</td>
+                          <td>{el.long}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             ) : null}
           </div>
           <QrModal visible={qrModal} onClose={handleOnClose} qr={qr} />
-        </>
+        </div>
       ) : null}
     </>
   );
