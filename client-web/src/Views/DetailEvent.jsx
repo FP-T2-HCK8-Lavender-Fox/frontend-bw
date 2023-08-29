@@ -28,7 +28,7 @@ export default function Admin() {
     await dispatch(generateQR(checkpoints));
     setQrModal(true);
   };
-  console.log(dataEvent);
+  console.log(dataUsers);
 
   useEffect(() => {
     dispatch(fetchEventById(id));
@@ -42,8 +42,9 @@ export default function Admin() {
       )}
       {!loading && error ? <div>Error: {error}</div> : null}
       {!loading && dataEvent ? (
-        <>
-          <div className="hero bg-base-100 h-screen">
+        <div className="border mt-20 mb-20 min-h-screen shadow-2xl">
+          <div className="">
+            {/* hero bg-base-100 h-screen */}
             <div className="hero-content flex-col lg:flex-row">
               <img
                 src={dataEvent.pics}
@@ -54,7 +55,9 @@ export default function Admin() {
                   {dataEvent.name.toUpperCase()}
                 </h1>
                 <p>by {dataEvent.Admin.username}</p>
-                <p className="my-1 badge badge-neutral">{dataEvent.Category.name}</p>
+                <p className="my-1 badge badge-neutral">
+                  {dataEvent.Category.name}
+                </p>
                 <div className="flex pt-6 justify-around">
                   <div>
                     <p>
@@ -90,7 +93,7 @@ export default function Admin() {
                 {dataUsers.map((el) => {
                   return (
                     <div key={el.id} className="avatar placeholder m-1">
-                      <div className="bg-neutral-focus text-neutral-content rounded-full w-12">
+                      <div className="bg-neutral text-neutral-content rounded-full w-12">
                         <span>
                           {el.User.name
                             .match(/(^[a-z]|\s[a-z])/gi)
@@ -106,7 +109,7 @@ export default function Admin() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row w-full min-h-screen">
+          <div className=" flex flex-col lg:flex-row w-full mb-36">
             <div className="grid flex-grow h-48 card items-center m-10 p-10">
               <div className="flex flex-row justify-between mb-2">
                 <h2 className="text-bold text-2xl font-mono">Leaderboards</h2>
@@ -177,7 +180,7 @@ export default function Admin() {
             ) : null}
           </div>
           <QrModal visible={qrModal} onClose={handleOnClose} qr={qr} />
-        </>
+        </div>
       ) : null}
     </>
   );
