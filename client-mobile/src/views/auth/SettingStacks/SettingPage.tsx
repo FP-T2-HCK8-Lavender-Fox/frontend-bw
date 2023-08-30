@@ -4,10 +4,34 @@ import React from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome5";
 import { useAuth } from "../../../context/AuthContext";
 import HeaderComponent from "../../../components/HeaderComponent";
+import { RootState, useAppDispatch } from "../../../stores/store";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import IsLoading from "../../../components/IsLoading";
+import { getSelf } from "../../../stores/reducers/categoryReducer";
 
-export default function SettingPage() {
+export default function SettingPage({ route }: any) {
   const { onLogout } = useAuth();
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
 
+  const myself = useSelector((state: RootState) => state.categories.userSelf);
+  const loading = useSelector(
+    (state: RootState) => state.events.events.isLoading
+  );
+
+  React.useEffect(() => {
+    dispatch(getSelf());
+  }, [dispatch, route]);
+
+  const goToEditProfile = () => {
+    //@ts-ignore
+    navigation.navigate("EditProfile", {
+      self: myself,
+    });
+  };
+
+  if (loading) return <IsLoading />;
   return (
     <>
       <HeaderComponent />
@@ -26,6 +50,7 @@ export default function SettingPage() {
           borderBottomLeftRadius={0}
           borderBottomRightRadius={0}
           backgroundColor={"#FFBF00"}
+          onPress={goToEditProfile}
         >
           <Text fontWeight={"800"}>Edit Profile</Text>
         </Button>

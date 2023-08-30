@@ -29,11 +29,9 @@ export default function MyEvents({ navigation, route }: any) {
     (state: RootState) => state.categories.fullCategories
   );
   React.useEffect(() => {
-    dispatch(getEventsOfUsers());
     dispatch(getCategories());
+    dispatch(getEventsOfUsers());
   }, [dispatch, route]);
-
-  console.log(event);
 
   const eventList = event?.map((ele) => ({
     id: ele.EventId,

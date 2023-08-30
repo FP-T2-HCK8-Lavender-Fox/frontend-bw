@@ -9,7 +9,6 @@ import {
   pushUserAnswer,
   getParticipants,
   getFriendList,
-  getSelf,
   postFriendship,
   getFriendToAcceptList,
   getFriendListOfUser,
@@ -183,13 +182,6 @@ export const eventsSlice = createSlice({
     },
     [getFriendList.fulfilled.type]: (state, { payload }) => {
       state.events.friendList = payload;
-      state.events.isLoading = false;
-    },
-    [getSelf.pending.type]: (state, action) => {
-      state.events.isLoading = true;
-    },
-    [getSelf.fulfilled.type]: (state, { payload }) => {
-      state.events.userSelf = payload;
       state.events.isLoading = false;
     },
     [getFriendToAcceptList.pending.type]: (state, action) => {

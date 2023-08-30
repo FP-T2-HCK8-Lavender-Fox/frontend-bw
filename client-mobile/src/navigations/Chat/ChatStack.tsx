@@ -26,11 +26,11 @@ export default function ChatStack() {
         component={AllFriendList}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Chat"
         component={Chat}
         options={{ headerShown: false }}
-      /> */}
+      />
     </Stack.Navigator>
   );
 }

@@ -5,12 +5,12 @@ import { RootState, useAppDispatch } from "../../../stores/store";
 import {
   getFriendList,
   getParticipants,
-  getSelf,
 } from "../../../stores/reducers/eventReducer";
 import { Users } from "../../../models/users";
 import { useSelector } from "react-redux";
 import IsLoading from "../../../components/IsLoading";
 import ParticipantList from "../../../components/ParticipantList";
+import { getSelf } from "../../../stores/reducers/categoryReducer";
 
 export default function OtherParticipants({ route }: any) {
   const { id } = route.params;
@@ -28,7 +28,7 @@ export default function OtherParticipants({ route }: any) {
     (state: RootState) => state.events.events.eventParticipants
   );
   const myself: Users = useSelector(
-    (state: RootState) => state.events.events.userSelf
+    (state: RootState) => state.categories.userSelf
   );
   const friendParticipant = [];
   for (const participant of userParticipants) {

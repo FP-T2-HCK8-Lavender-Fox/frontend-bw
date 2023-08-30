@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 // @ts-ignore
 import * as TalkRn from "@talkjs/expo";
 import { RootState, useAppDispatch } from "../../../stores/store";
-import { getSelf } from "../../../stores/reducers/eventReducer";
+import { getSelf } from "../../../stores/reducers/categoryReducer";
 
 export default function Chat({ route }: any) {
   const dispatch = useAppDispatch();
   const myself: Users = useSelector(
-    (state: RootState) => state.events.events.userSelf
+    (state: RootState) => state.categories.userSelf
   );
 
   const { friends } = route.params;

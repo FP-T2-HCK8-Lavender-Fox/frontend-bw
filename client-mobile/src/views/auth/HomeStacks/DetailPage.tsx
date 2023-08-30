@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, ToastAndroid } from "react-native";
 import React, { useRef } from "react";
 import { RootState, useAppDispatch } from "../../../stores/store";
 import { useSelector } from "react-redux";
@@ -13,15 +13,45 @@ import { Calendar } from "react-native-calendars";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import IsLoading from "../../../components/IsLoading";
+import { Users } from "../../../models/users";
 
-export default function DetailPage({ route }: { route: any }) {
+export default function DetailPage({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}) {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = ["25%", "50%", "50%"];
   const { id } = route.params;
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+
+  React.useEffect(() => {
+    dispatch(getEventById(id));
+  }, [dispatch]);
+
+  const failedToast = () => {
+    ToastAndroid.showWithGravity(
+      "Failed to participate, please fill your profile first",
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
+  };
 
   function handlePresentModal() {
+    if (
+      !myself.ktpId ||
+      !myself.birthDate ||
+      !myself.phoneNumber ||
+      !myself.address
+    ) {
+      failedToast();
+      // @ts-ignore
+      return navigation.navigate("EditProfile", {
+        self: myself,
+      });
+    }
     bottomSheetRef.current?.present();
     dispatch(postPayment());
     setTimeout(() => {
@@ -48,6 +78,9 @@ export default function DetailPage({ route }: { route: any }) {
 
   const [modalOpen, setModalOpen] = React.useState(false);
 
+  const myself: Users = useSelector(
+    (state: RootState) => state.categories.userSelf
+  );
   const event: Events = useSelector(
     (state: RootState) => state.events.events.eventById
   );
@@ -57,10 +90,6 @@ export default function DetailPage({ route }: { route: any }) {
   const loading = useSelector(
     (state: RootState) => state.events.events.isLoading
   );
-
-  React.useEffect(() => {
-    dispatch(getEventById(id));
-  }, [dispatch]);
 
   if (loading || !event) {
     return <IsLoading />;
@@ -98,7 +127,7 @@ export default function DetailPage({ route }: { route: any }) {
         <View
           paddingHorizontal={20}
           paddingTop={12}
-          paddingBottom={130}
+          paddingBottom={12}
           borderTopWidth={1}
           borderTopColor={"black"}
         >

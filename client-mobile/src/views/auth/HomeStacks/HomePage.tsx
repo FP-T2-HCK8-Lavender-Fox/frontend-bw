@@ -12,7 +12,10 @@ import HeaderComponent from "../../../components/HeaderComponent";
 import { Text, YStack } from "tamagui";
 import Dropdown from "react-native-input-select";
 import { Categories } from "../../../models/categories";
-import { getCategories } from "../../../stores/reducers/categoryReducer";
+import {
+  getCategories,
+  getSelf,
+} from "../../../stores/reducers/categoryReducer";
 
 export default function HomePage({ navigation, route }: any) {
   const dispatch = useAppDispatch();
@@ -30,6 +33,7 @@ export default function HomePage({ navigation, route }: any) {
   React.useEffect(() => {
     dispatch(getCategories());
     dispatch(getEvents());
+    dispatch(getSelf());
   }, [dispatch, route]);
 
   const data = categories.map((el) => ({ name: el.name, code: el.id }));

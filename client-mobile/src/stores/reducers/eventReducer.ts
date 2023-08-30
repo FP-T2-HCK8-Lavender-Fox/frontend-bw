@@ -207,20 +207,6 @@ export const getFriendList = createAsyncThunk("users/friendList", async () => {
   }
 });
 
-export const getSelf = createAsyncThunk("users/self", async () => {
-  try {
-    const { data }: any = await api.get("/users/detail", {
-      headers: {
-        access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
-      },
-    });
-
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 export const postFriendship = createAsyncThunk(
   "users/postFriendShip",
   async (friendId: number) => {

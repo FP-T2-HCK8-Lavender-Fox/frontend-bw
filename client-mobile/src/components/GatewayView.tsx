@@ -44,7 +44,7 @@ export default function GatewayView({ route }: any) {
       {isLoading && paymentUri === "" ? (
         <IsLoading />
       ) : (
-        <View flex={1} marginBottom={100}>
+        <View flex={1}>
           <WebView
             source={{ uri: paymentUri }}
             onLoad={() => setLoading(false)}
