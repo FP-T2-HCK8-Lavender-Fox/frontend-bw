@@ -71,7 +71,7 @@ export const EventsCard = ({
           </XStack>
         </Card.Header>
         <Card.Footer>
-          <YStack position="absolute" bottom={20} left={20}>
+          <YStack marginLeft={14} marginBottom={14}>
             <Text
               textShadowColor={"rgba(0, 0, 0, 0.75)"}
               textShadowOffset={{ width: -1, height: 1 }}
