@@ -57,7 +57,10 @@ export default function Sidebar({ children }) {
                 {localStorage.getItem("username")}
               </h4>
             </div>
-            <div className="py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group hover:bg-red-500">
+            <div
+              className="py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group hover:bg-red-500 tooltip tooltip-left"
+              data-tip="Logout"
+            >
               <Link to="/login" onClick={logout}>
                 <LogOut size={20} />
               </Link>
