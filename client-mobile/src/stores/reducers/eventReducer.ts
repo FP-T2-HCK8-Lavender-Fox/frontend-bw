@@ -4,13 +4,30 @@ import * as SecureStore from "expo-secure-store";
 
 export const getEvents = createAsyncThunk("events/getEvents", async () => {
   try {
-    const { data } = await api.get("/events");
+    const { data } = await api.get("/events/user");
 
     return data;
   } catch (error) {
     console.log(error);
   }
 });
+
+export const getAllEventsByCategoryId = createAsyncThunk(
+  "events/getAllEventsByCatId",
+  async (catId: number) => {
+    try {
+      const { data } = await api.get("/events/category", {
+        params: {
+          catId,
+        },
+      });
+
+      return data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const getEventById = createAsyncThunk(
   "events/getEventsById",
@@ -71,6 +88,43 @@ export const getEventsOfUsers = createAsyncThunk(
   async () => {
     try {
       const { data } = await api.get("/users-event/users/detail", {
+        headers: {
+          access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
+        },
+      });
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const getUserEventsByCategory = createAsyncThunk(
+  "events/userEventsByCategory",
+  async (catId: number) => {
+    try {
+      const { data } = await api.get("/users-event/category", {
+        params: {
+          catId,
+        },
+        headers: {
+          access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
+        },
+      });
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const getInactiveUserEvents = createAsyncThunk(
+  "events/inactiveUserEvents",
+  async () => {
+    try {
+      const { data } = await api.get("/user-event/inactive", {
         headers: {
           access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
         },
