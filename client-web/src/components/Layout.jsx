@@ -10,7 +10,7 @@ export default function Layout() {
         <div className="z-50">
           <TheSidebar />
         </div>
-        <div className="ml-20 h-screen flex flex-col">
+        <div className="ml-10 h-screen flex flex-col">
           <Outlet />
         </div>
       </div>

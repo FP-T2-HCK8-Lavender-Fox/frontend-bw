@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import CategoryRow from "../components/CategoryRow";
+import Toast from "../components/Toast";
 import CategoryForm from "../components/CategoryForm";
+import CategoryCard from "../components/CategoryCard";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "../store/categoryReducer";
+import { Plus } from "lucide-react";
 
 export default function Genre() {
   const { categories, loading, error, msg } = useSelector(
@@ -19,67 +21,39 @@ export default function Genre() {
 
   return (
     <>
-      {msg && (
-        <div className="toast toast-top toast-end">
-          <div className="alert alert-info m-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
+      {msg && <Toast msg={msg} />}
+      {loading && <span className="loading loading-bars loading-lg"></span>}
+      {!loading && error ? <div>Error: {error}</div> : null}
+      <div className="mt-14 mb-20 overflow-y-auto">
+        <div className="leading-4">
+          <h1 className="font-bold font-mono text-4xl float-left">Category</h1>
+          <div
+            className="tooltip float-right tooltip-left"
+            data-tip="Add Category"
+          >
+            <button
+              className="btn btn-primary btn-md btn-circle"
+              onClick={() => setCategoryModal(true)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{msg}</span>
+              <Plus />
+            </button>
           </div>
         </div>
-      )}
-      <div className="hero bg-base-100">
-        <div className="hero-content">
-          <div>
-            <div className="hero-content">
-              <h1 className="font-mono font-bold text-black text-4xl">
-                Categories
-              </h1>
-              <button
-                className="btn btn-primary btn-md"
-                onClick={() => setCategoryModal(true)}
-              >
-                add Category
-              </button>
-            </div>
-            <div className="overflow-x-auto">
-              {loading && (
+        <div className="hero">
+          <div className="hero-content flex-col lg:flex-row">
+            <div className="flex flex-col md:flex-row">
+              {!loading && categories.length ? (
+                categories.map((category) => {
+                  return <CategoryCard category={category} key={category.id} />;
+                })
+              ) : (
                 <span className="loading loading-spinner text-neutral"></span>
               )}
-              {!loading && error ? <div>Error: {error}</div> : null}
-              {!loading && categories.length ? (
-                <table className="table bg-neutral">
-                  <thead>
-                    <tr className="font-mono text-black font-bold text-2xl">
-                      <th>Name</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {categories.map((category) => {
-                      return (
-                        <CategoryRow key={category.id} category={category} />
-                      );
-                    })}
-                  </tbody>
-                </table>
-              ) : null}
             </div>
           </div>
         </div>
-        <CategoryForm visible={categoryModal} onClose={handleOnClose} />
       </div>
+      <CategoryForm visible={categoryModal} onClose={handleOnClose} />
     </>
   );
 }

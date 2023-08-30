@@ -2,6 +2,7 @@ import { createBrowserRouter, redirect } from "react-router-dom";
 import EventPage from "./Views/EventPage";
 import AddEvent from "./Views/AddEvent";
 import Admin from "./Views/Admin";
+import UserPage from "./Views/UserPage";
 import Category from "./Views/Category";
 import Login from "./Views/Login";
 import DetailEvent from "./Views/DetailEvent";
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/admins",
         element: <Admin />,
+      },
+      {
+        path: "/users",
+        element: <UserPage />,
       },
       {
         path: "/categories",
