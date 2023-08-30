@@ -1,12 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  fetchEvents,
-  postEvent,
-  editEventById,
-  setMsgEvent,
-} from "../store/eventReducer";
+import { fetchEvents, editEventById, setMsgEvent } from "../store/eventReducer";
 import { fetchCategories } from "../store/categoryReducer";
 import moment from "moment";
 
@@ -29,36 +24,6 @@ export default function EventForm({ visible, onClose, event }) {
     pics: "",
   });
 
-  const [checkpointState, setCheckpointState] = useState({
-    0: {
-      name: "",
-      lat: "",
-      long: "",
-      question: "",
-      trueAnswer: "",
-      wrongAnswerOne: "",
-      wrongAnswerTwo: "",
-    },
-    1: {
-      name: "",
-      lat: "",
-      long: "",
-      question: "",
-      trueAnswer: "",
-      wrongAnswerOne: "",
-      wrongAnswerTwo: "",
-    },
-    2: {
-      name: "",
-      lat: "",
-      long: "",
-      question: "",
-      trueAnswer: "",
-      wrongAnswerOne: "",
-      wrongAnswerTwo: "",
-    },
-  });
-
   const handleOnClose = (e) => {
     if (e.target.id === "container") onClose();
   };
@@ -67,65 +32,6 @@ export default function EventForm({ visible, onClose, event }) {
     if (name === "pics") setEventState({ ...eventState, [name]: files[0] });
     else setEventState({ ...eventState, [name]: value });
     // console.log(eventState);
-  };
-
-  const onChangeCheckpointInput = ({ target: { id, name, value } }) => {
-    setCheckpointState({
-      ...checkpointState,
-      [id]: { ...checkpointState[id], [name]: value },
-    });
-  };
-
-  const handleAddEvent = async (e) => {
-    e.preventDefault();
-    eventState.checkpoints = JSON.stringify(Object.values(checkpointState));
-    await dispatch(postEvent(eventState));
-    await dispatch(fetchEvents());
-    setEventState({
-      name: "",
-      startDate: "",
-      endDate: "",
-      active: true,
-      description: "",
-      amount: "",
-      address: "",
-      lat: "",
-      long: "",
-      CategoryId: 0,
-    });
-    setCheckpointState({
-      0: {
-        name: "",
-        lat: "",
-        long: "",
-        question: "",
-        trueAnswer: "",
-        wrongAnswerOne: "",
-        wrongAnswerTwo: "",
-      },
-      1: {
-        name: "",
-        lat: "",
-        long: "",
-        question: "",
-        trueAnswer: "",
-        wrongAnswerOne: "",
-        wrongAnswerTwo: "",
-      },
-      2: {
-        name: "",
-        lat: "",
-        long: "",
-        question: "",
-        trueAnswer: "",
-        wrongAnswerOne: "",
-        wrongAnswerTwo: "",
-      },
-    });
-    onClose();
-    setTimeout(() => {
-      dispatch(setMsgEvent(""));
-    }, 2000);
   };
 
   const handleEditEvent = async (e) => {
@@ -162,30 +68,12 @@ export default function EventForm({ visible, onClose, event }) {
         id="container"
         onClick={handleOnClose}
         className={
-          event
-            ? "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center"
-            : "fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center"
+          "fixed z-50 inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center"
         }
       >
-        <div
-          className={
-            event ? "overflow-y-auto h-5/6" : "overflow-y-auto h-5/6 lg:w-full"
-          }
-        >
-          <div
-            className={
-              event
-                ? "hero-content text-center bg-neutral"
-                : "hero-content bg-neutral lg:max-w-full "
-            }
-          >
-            <div
-              className={
-                event
-                  ? "card bg-neutral w-96"
-                  : "card bg-neutral lg:w-full lg:justify-start"
-              }
-            >
+        <div className={"overflow-y-auto h-5/6"}>
+          <div className={"hero-content text-center bg-neutral"}>
+            <div className={"card bg-neutral w-96"}>
               <button
                 onClick={onClose}
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -376,72 +264,6 @@ export default function EventForm({ visible, onClose, event }) {
                     )
                   ) : null}
                 </form>
-                {event
-                  ? null
-                  : Object.keys(checkpointState).map((checkpoint, index) => {
-                      return (
-                        <>
-                          <div
-                            className="divider lg:divider-horizontal"
-                            key={checkpoint}
-                          />
-                          <form>
-                            <h1 className="card-title font-mono">
-                              Add Checkpoint {index + 1}
-                            </h1>
-                            {Object.keys(checkpointState[checkpoint]).map(
-                              (el, index) => {
-                                return (
-                                  <div
-                                    className="form-control w-full max-w-xs"
-                                    key={checkpoint + index}
-                                  >
-                                    <label className="label">
-                                      <span className="label-text text-black font-bold font-mono text-lg">
-                                        {el}
-                                      </span>
-                                    </label>
-                                    {el === "long" || el == "lat" ? (
-                                      <input
-                                        id={checkpoint}
-                                        type="number"
-                                        name={el}
-                                        value={checkpointState[checkpoint][el]}
-                                        onChange={onChangeCheckpointInput}
-                                        className="input input-bordered w-full max-w-xs"
-                                      />
-                                    ) : (
-                                      <input
-                                        id={checkpoint}
-                                        type="text"
-                                        name={el}
-                                        value={checkpointState[checkpoint][el]}
-                                        onChange={onChangeCheckpointInput}
-                                        className="input input-bordered w-full max-w-xs"
-                                      />
-                                    )}
-                                  </div>
-                                );
-                              }
-                            )}
-                          </form>
-                        </>
-                      );
-                    })}
-                {event ? null : loading ? (
-                  <button className="btn btn-shadow btn-primary lg:w-1/6 lg:absolute lg:top-24 lg:right-2">
-                    <span className="loading loading-spinner loading-md "></span>
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-shadow btn-primary w-full lg:w-1/6 lg:absolute lg:top-24 lg:right-2"
-                    onClick={handleAddEvent}
-                    value="Add"
-                    // type="submit"
-                  >
-                    Add
-                  </button>
-                )}
               </div>
             </div>
           </div>

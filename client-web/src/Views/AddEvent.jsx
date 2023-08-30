@@ -1,18 +1,27 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   fetchEvents,
   postEvent,
   editEventById,
   setMsgEvent,
+  fetchEventById,
 } from "../store/eventReducer";
 import { fetchCategories } from "../store/categoryReducer";
 import moment from "moment";
+import { useParams } from "react-router-dom";
 
 export default function AddEvent() {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.event);
-  const { categories } = useSelector((state) => state.category);
+  const navigate = useNavigate();
+  let { id } = useParams();
+
+  const {
+    event: { dataEvent },
+    error,
+  } = useSelector((state) => state.event);
+  const { categories, loading } = useSelector((state) => state.category);
 
   const [eventState, setEventState] = useState({
     name: "",
@@ -61,7 +70,6 @@ export default function AddEvent() {
   const onChangeInput = ({ target: { name, value, files } }) => {
     if (name === "pics") setEventState({ ...eventState, [name]: files[0] });
     else setEventState({ ...eventState, [name]: value });
-    // console.log(eventState);
   };
 
   const onChangeCheckpointInput = ({ target: { id, name, value } }) => {
@@ -118,6 +126,7 @@ export default function AddEvent() {
       },
     });
 
+    navigate("/");
     setTimeout(() => {
       dispatch(setMsgEvent(""));
     }, 2000);
@@ -140,113 +149,174 @@ export default function AddEvent() {
       CategoryId: 0,
     });
 
+    navigate("/");
     setTimeout(() => {
       dispatch(setMsgEvent(""));
     }, 2000);
   };
 
   useEffect(() => {
-    if (event) setEventState(event);
+    if (id) {
+      dispatch(fetchEventById(id));
+      setEventState(dataEvent);
+    }
     dispatch(fetchCategories());
-  }, [event, dispatch]);
+  }, []);
 
   return (
     <>
-      <div
-        className={
-          event
-            ? "border mt-14 mb-20 shadow-2xl rounded-2xl overflow-y-auto h-5/6"
-            : "border mt-14 mb-20 shadow-2xl rounded-2xl overflow-y-auto h-5/6 lg:w-full"
-        }
-      >
-        <div className="hero-content flex-col w-screen">
-          <div className="card-body text-black">
-            <form>
-              <h1 className="card-title font-mono">Add Event</h1>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text text-black font-bold font-mono text-lg">
-                    Choose image
-                  </span>
-                </label>
-                <input
-                  type="file"
-                  id="pics"
-                  name="pics"
-                  onChange={onChangeInput}
-                  className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-                />
-              </div>
-              <div className="form-control w-full max-w-lg">
-                <label className="label">
-                  <span className="label-text text-black font-bold font-mono text-lg">
-                    Name
-                  </span>
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  name="name"
-                  value={eventState.name}
-                  onChange={onChangeInput}
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </div>
-              <div className="flex flex-col lg:flex-row">
-                <div className="form-control w-full max-w-xs mr-3">
+      {loading && (
+        <div className="mt-72 ml-96 pl-48 min-h-screen ">
+          <span className="  loading loading-spinner w-28 text-neutral"></span>
+        </div>
+      )}
+      {!loading && error ? <div>Error: {error}</div> : null}
+      {!loading && categories ? (
+        <div
+          className={
+            dataEvent
+              ? "border mt-14 mb-20 shadow-2xl rounded-2xl overflow-y-auto h-5/6"
+              : "border mt-14 mb-20 shadow-2xl rounded-2xl overflow-y-auto h-5/6 lg:w-full"
+          }
+        >
+          <div className="hero-content flex-col w-screen">
+            <div className="card-body text-black">
+              <form>
+                <h1 className="card-title font-mono">Add Event</h1>
+                <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text text-black font-bold font-mono text-lg">
-                      Category
+                      Choose image
                     </span>
                   </label>
-                  <select
-                    id="CategoryId"
-                    name="CategoryId"
-                    value={eventState.CategoryId}
+                  <input
+                    type="file"
+                    id="pics"
+                    name="pics"
                     onChange={onChangeInput}
-                    className="select select-bordered"
-                  >
-                    <option>--- Select ---</option>
-                    {categories.map((el) => {
-                      return (
-                        <option key={el.id} value={el.id}>
-                          {el.name}
-                        </option>
-                      );
-                    })}
-                  </select>
+                    className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                  />
+                </div>
+                <div className="form-control w-full max-w-lg">
+                  <label className="label">
+                    <span className="label-text text-black font-bold font-mono text-lg">
+                      Name
+                    </span>
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    value={eventState.name}
+                    onChange={onChangeInput}
+                    className="input input-bordered w-full max-w-xs"
+                  />
+                </div>
+                <div className="flex flex-col lg:flex-row">
+                  <div className="form-control w-full max-w-xs mr-3">
+                    <label className="label">
+                      <span className="label-text text-black font-bold font-mono text-lg">
+                        Category
+                      </span>
+                    </label>
+
+                    <select
+                      id="CategoryId"
+                      name="CategoryId"
+                      value={eventState.CategoryId}
+                      onChange={onChangeInput}
+                      className="select select-bordered"
+                    >
+                      <option>--- Select ---</option>
+                      {categories.map((el, i) => {
+                        return (
+                          <option key={i} value={el.id}>
+                            {el.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                      <span className="label-text text-black font-bold font-mono text-lg">
+                        Amount
+                      </span>
+                    </label>
+                    <input
+                      id="amount"
+                      type="number"
+                      name="amount"
+                      value={eventState.amount}
+                      onChange={onChangeInput}
+                      className="input input-bordered w-full max-w-xs"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col lg:flex-row">
+                  <div className="form-control w-full max-w-xs mr-3">
+                    <label className="label">
+                      <span className="label-text text-black font-bold font-mono text-lg">
+                        Start Date
+                      </span>
+                    </label>
+                    <input
+                      id="startDate"
+                      type="datetime-local"
+                      name="startDate"
+                      min={moment(new Date()).format("YYYY-MM-DDThh:mm")}
+                      value={moment(eventState.startDate).format(
+                        "YYYY-MM-DDThh:mm"
+                      )}
+                      onChange={onChangeInput}
+                      className="input input-bordered w-full max-w-xs"
+                    />
+                  </div>
+                  <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                      <span className="label-text text-black font-bold font-mono text-lg">
+                        End Date
+                      </span>
+                    </label>
+                    <input
+                      id="endDate"
+                      type="datetime-local"
+                      name="endDate"
+                      min={moment(new Date()).format("YYYY-MM-DDThh:mm")}
+                      value={moment(eventState.endDate).format(
+                        "YYYY-MM-DDThh:mm"
+                      )}
+                      onChange={onChangeInput}
+                      className="input input-bordered w-full max-w-xs"
+                    />
+                  </div>
                 </div>
                 <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text text-black font-bold font-mono text-lg">
-                      Amount
+                      address
                     </span>
                   </label>
                   <input
-                    id="amount"
+                    id="address"
+                    type="text"
+                    name="address"
+                    value={eventState.address}
+                    onChange={onChangeInput}
+                    className="input input-bordered w-full max-w-xs"
+                  />
+                </div>
+                <div className="form-control w-full max-w-xs">
+                  <label className="label">
+                    <span className="label-text text-black font-bold font-mono text-lg">
+                      long
+                    </span>
+                  </label>
+                  <input
+                    id="long"
                     type="number"
-                    name="amount"
-                    value={eventState.amount}
-                    onChange={onChangeInput}
-                    className="input input-bordered w-full max-w-xs"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col lg:flex-row">
-                <div className="form-control w-full max-w-xs mr-3">
-                  <label className="label">
-                    <span className="label-text text-black font-bold font-mono text-lg">
-                      Start Date
-                    </span>
-                  </label>
-                  <input
-                    id="startDate"
-                    type="datetime-local"
-                    name="startDate"
-                    min={moment(new Date()).format("YYYY-MM-DDThh:mm")}
-                    value={moment(eventState.startDate).format(
-                      "YYYY-MM-DDThh:mm"
-                    )}
+                    name="long"
+                    value={eventState.long}
                     onChange={onChangeInput}
                     className="input input-bordered w-full max-w-xs"
                   />
@@ -254,169 +324,120 @@ export default function AddEvent() {
                 <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text text-black font-bold font-mono text-lg">
-                      End Date
+                      lat
                     </span>
                   </label>
                   <input
-                    id="endDate"
-                    type="datetime-local"
-                    name="endDate"
-                    min={moment(new Date()).format("YYYY-MM-DDThh:mm")}
-                    value={moment(eventState.endDate).format(
-                      "YYYY-MM-DDThh:mm"
-                    )}
+                    id="lat"
+                    type="number"
+                    name="lat"
+                    value={eventState.lat}
                     onChange={onChangeInput}
                     className="input input-bordered w-full max-w-xs"
                   />
                 </div>
-              </div>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text text-black font-bold font-mono text-lg">
-                    address
-                  </span>
-                </label>
-                <input
-                  id="address"
-                  type="text"
-                  name="address"
-                  value={eventState.address}
-                  onChange={onChangeInput}
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </div>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text text-black font-bold font-mono text-lg">
-                    long
-                  </span>
-                </label>
-                <input
-                  id="long"
-                  type="number"
-                  name="long"
-                  value={eventState.long}
-                  onChange={onChangeInput}
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </div>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text text-black font-bold font-mono text-lg">
-                    lat
-                  </span>
-                </label>
-                <input
-                  id="lat"
-                  type="number"
-                  name="lat"
-                  value={eventState.lat}
-                  onChange={onChangeInput}
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </div>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text text-black font-bold font-mono text-lg">
-                    Description
-                  </span>
-                </label>
-                <textarea
-                  className="textarea textarea-bordered h-24"
-                  placeholder="Description"
-                  name="description"
-                  value={eventState.description}
-                  id="description"
-                  onChange={onChangeInput}
-                ></textarea>
-              </div>
-              <br />
-              {event ? (
-                loading ? (
-                  <button className="btn btn-shadow btn-primary w-1/2">
-                    <span className="loading loading-spinner loading-md "></span>
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-shadow btn-primary w-1/2"
-                    onClick={handleEditEvent}
-                    value="Edit"
-                    // type="submit"
-                  >
-                    Edit
-                  </button>
-                )
-              ) : null}
-            </form>
-            {event
-              ? null
-              : Object.keys(checkpointState).map((checkpoint, index) => {
-                  return (
-                    <>
-                      <div
-                        className="divider lg:divider-horizontal"
-                        key={checkpoint}
-                      />
-                      <form>
-                        <h1 className="card-title font-mono">
-                          Add Checkpoint {index + 1}
-                        </h1>
-                        {Object.keys(checkpointState[checkpoint]).map(
-                          (el, index) => {
-                            return (
-                              <div
-                                className="form-control w-full max-w-xs"
-                                key={checkpoint + index}
-                              >
-                                <label className="label">
-                                  <span className="label-text text-black font-bold font-mono text-lg">
-                                    {el}
-                                  </span>
-                                </label>
-                                {el === "long" || el == "lat" ? (
-                                  <input
-                                    id={checkpoint}
-                                    type="number"
-                                    name={el}
-                                    value={checkpointState[checkpoint][el]}
-                                    onChange={onChangeCheckpointInput}
-                                    className="input input-bordered w-full max-w-xs"
-                                  />
-                                ) : (
-                                  <input
-                                    id={checkpoint}
-                                    type="text"
-                                    name={el}
-                                    value={checkpointState[checkpoint][el]}
-                                    onChange={onChangeCheckpointInput}
-                                    className="input input-bordered w-full max-w-xs"
-                                  />
-                                )}
-                              </div>
-                            );
-                          }
-                        )}
-                      </form>
-                    </>
-                  );
-                })}
-            {event ? null : loading ? (
-              <button className="btn btn-shadow btn-primary w-full">
-                <span className="loading loading-spinner loading-md "></span>
-              </button>
-            ) : (
-              <button
-                className="btn btn-shadow btn-primary w-full"
-                onClick={handleAddEvent}
-                value="Add"
-                // type="submit"
-              >
-                Add
-              </button>
-            )}
+                <div className="form-control w-full max-w-xs">
+                  <label className="label">
+                    <span className="label-text text-black font-bold font-mono text-lg">
+                      Description
+                    </span>
+                  </label>
+                  <textarea
+                    className="textarea textarea-bordered h-24"
+                    placeholder="Description"
+                    name="description"
+                    value={eventState.description}
+                    id="description"
+                    onChange={onChangeInput}
+                  ></textarea>
+                </div>
+                <br />
+                {dataEvent ? (
+                  loading ? (
+                    <button className="btn btn-shadow btn-primary w-1/2">
+                      <span className="loading loading-spinner loading-md "></span>
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-shadow btn-primary w-1/2"
+                      onClick={handleEditEvent}
+                      value="Edit"
+                      // type="submit"
+                    >
+                      Edit
+                    </button>
+                  )
+                ) : null}
+              </form>
+              {dataEvent
+                ? null
+                : Object.keys(checkpointState).map((checkpoint, index) => {
+                    return (
+                      <>
+                        <div
+                          className="divider lg:divider-horizontal"
+                          key={index}
+                        />
+                        <form>
+                          <h1 className="card-title font-mono">
+                            Add Checkpoint {index + 1}
+                          </h1>
+                          {Object.keys(checkpointState[checkpoint]).map(
+                            (el, index) => {
+                              return (
+                                <div
+                                  className="form-control w-full max-w-xs"
+                                  key={checkpoint + index}
+                                >
+                                  <label className="label">
+                                    <span className="label-text text-black font-bold font-mono text-lg">
+                                      {el}
+                                    </span>
+                                  </label>
+                                  {el === "long" || el == "lat" ? (
+                                    <input
+                                      id={checkpoint}
+                                      type="number"
+                                      name={el}
+                                      value={checkpointState[checkpoint][el]}
+                                      onChange={onChangeCheckpointInput}
+                                      className="input input-bordered w-full max-w-xs"
+                                    />
+                                  ) : (
+                                    <input
+                                      id={checkpoint}
+                                      type="text"
+                                      name={el}
+                                      value={checkpointState[checkpoint][el]}
+                                      onChange={onChangeCheckpointInput}
+                                      className="input input-bordered w-full max-w-xs"
+                                    />
+                                  )}
+                                </div>
+                              );
+                            }
+                          )}
+                        </form>
+                      </>
+                    );
+                  })}
+              {dataEvent ? null : loading ? (
+                <button className="btn btn-shadow btn-primary w-full">
+                  <span className="loading loading-spinner loading-md "></span>
+                </button>
+              ) : (
+                <button
+                  className="btn btn-shadow btn-primary w-full"
+                  onClick={handleAddEvent}
+                  value="Add"
+                >
+                  Add
+                </button>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
 }
