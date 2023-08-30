@@ -1,4 +1,4 @@
-import { Card, Image, Paragraph, Text, XStack, YStack } from "tamagui";
+import { Card, Image, Text, XStack, YStack } from "tamagui";
 import React from "react";
 
 export const EventsCard = ({
@@ -71,7 +71,7 @@ export const EventsCard = ({
           </XStack>
         </Card.Header>
         <Card.Footer>
-          <YStack marginLeft={14} marginBottom={14}>
+          <YStack marginLeft={14} marginBottom={14} marginRight={14}>
             <Text
               textShadowColor={"rgba(0, 0, 0, 0.75)"}
               textShadowOffset={{ width: -1, height: 1 }}
@@ -85,14 +85,15 @@ export const EventsCard = ({
               {events.name}
             </Text>
 
-            <Paragraph
+            <Text
+              fontSize={13}
               textShadowColor={"rgba(0, 0, 0, 0.75)"}
               textShadowOffset={{ width: -1, height: 1 }}
               textShadowRadius={10}
               color={"white"}
             >
               {events.description}
-            </Paragraph>
+            </Text>
           </YStack>
         </Card.Footer>
         <Card.Background borderRadius="$5" backgroundColor={"grey"}>
