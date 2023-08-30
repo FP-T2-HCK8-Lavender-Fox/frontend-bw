@@ -1,6 +1,7 @@
 import React from "react";
 import { Users } from "../../../models/users";
 import { useSelector } from "react-redux";
+// @ts-ignore
 import * as TalkRn from "@talkjs/expo";
 import { RootState, useAppDispatch } from "../../../stores/store";
 import { getSelf } from "../../../stores/reducers/eventReducer";

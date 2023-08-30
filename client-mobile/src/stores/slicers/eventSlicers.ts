@@ -15,6 +15,9 @@ import {
   getFriendListOfUser,
   acceptFriendRequest,
   rejectFriendRequest,
+  getAllEventsByCategoryId,
+  getInactiveUserEvents,
+  getUserEventsByCategory,
 } from "../reducers/eventReducer";
 
 export const eventsSlice = createSlice({
@@ -213,6 +216,26 @@ export const eventsSlice = createSlice({
       state.events.isLoading = true;
     },
     [rejectFriendRequest.fulfilled.type]: (state, action) => {
+      state.events.isLoading = false;
+    },
+    [getAllEventsByCategoryId.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getAllEventsByCategoryId.fulfilled.type]: (state, { payload }) => {
+      state.events.fullEvents = payload;
+      state.events.isLoading = false;
+    },
+    [getUserEventsByCategory.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getUserEventsByCategory.fulfilled.type]: (state, { payload }) => {
+      state.events.eventsOfUser = payload;
+      state.events.isLoading = false;
+    },
+    [getInactiveUserEvents.pending.type]: (state, action) => {
+      state.events.isLoading = true;
+    },
+    [getInactiveUserEvents.fulfilled.type]: (state, action) => {
       state.events.isLoading = false;
     },
   },

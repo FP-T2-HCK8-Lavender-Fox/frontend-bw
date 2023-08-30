@@ -7,10 +7,19 @@ import EventStack from "./Event/EventStack";
 import ChatStack from "./Chat/ChatStack";
 import HomeStack from "./Home/HomeStack";
 import SettingStack from "./Settings/SettingStack";
+import { useAppDispatch } from "../stores/store";
+import {
+  getEvents,
+  getEventsOfUsers,
+  getFriendListOfUser,
+  getFriendToAcceptList,
+} from "../stores/reducers/eventReducer";
 
 const Tab = createBottomTabNavigator();
 
 export default function MainTabs() {
+  const dispatch = useAppDispatch();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -55,16 +64,32 @@ export default function MainTabs() {
         name="HomeStack"
         component={HomeStack}
         options={{ headerShown: false }}
+        listeners={{
+          tabPress: (e) => {
+            dispatch(getEvents());
+          },
+        }}
       />
       <Tab.Screen
         name="EventStack"
         component={EventStack}
         options={{ headerShown: false }}
+        listeners={{
+          tabPress: (e) => {
+            dispatch(getEventsOfUsers());
+          },
+        }}
       />
       <Tab.Screen
         name="ChatStack"
         component={ChatStack}
         options={{ headerShown: false }}
+        listeners={{
+          tabPress: (e) => {
+            dispatch(getFriendListOfUser());
+            dispatch(getFriendToAcceptList());
+          },
+        }}
       />
       <Tab.Screen
         name="SettingStack"
