@@ -30,9 +30,10 @@ export default function Chat({ route }: any) {
   };
 
   const conversationBuilder = TalkRn.getConversationBuilder(
+    // @ts-ignore
     TalkRn.oneOnOneId(me, other)
   );
-
+  // @ts-ignore
   conversationBuilder.setParticipant(me);
   conversationBuilder.setParticipant(other);
 
@@ -41,8 +42,18 @@ export default function Chat({ route }: any) {
   }, [route]);
 
   return (
+    // @ts-ignore
+
     <TalkRn.Session appId="tcehwMYz" me={me}>
-      <TalkRn.Chatbox conversationBuilder={conversationBuilder} />
+      <TalkRn.Chatbox
+        conversationBuilder={conversationBuilder}
+        // @ts-ignore
+        style={{
+          zIndex: 999,
+          position: "absolute",
+          // tambahkan properti gaya lainnya di sini
+        }}
+      />
     </TalkRn.Session>
   );
 }

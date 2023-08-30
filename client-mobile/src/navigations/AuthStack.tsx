@@ -5,6 +5,7 @@ import React from "react";
 import MainTabs from "./MainTabs";
 import RegisterPage from "../views/unauth/RegisterPage";
 import { useAuth } from "../context/AuthContext";
+import Chat from "../views/auth/ChatStacks/Chat";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,13 +15,22 @@ export default function AuthStack() {
   return (
     <Stack.Navigator>
       {authState?.authenticated ? (
-        <Stack.Screen
-          name="MainTabs"
-          component={MainTabs}
-          options={{
-            headerShown: false,
-          }}
-        />
+        <>
+          <Stack.Screen
+            name="MainTabs"
+            component={MainTabs}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen
