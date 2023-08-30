@@ -21,7 +21,7 @@ export default function Card({ event }) {
 
   return (
     <>
-      <div className="card w-80 h-full bg-base-100 shadow-lg mx-2 hover:scale-105 ease-in duration-200 overflow-hidden">
+      <div className="card my-2 w-full h-full bg-base-100 shadow-lg mx-2 hover:scale-105 ease-in duration-200 overflow-hidden">
         <figure>
           <Link to={`/events/` + event.id}>
             <img src={event.pics} alt="Shoes" className="w-full" />

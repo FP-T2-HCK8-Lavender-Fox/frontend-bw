@@ -23,12 +23,18 @@ export default function Movie() {
       {!loading && error ? <div>Error: {error}</div> : null}
 
       <div className="mt-14 mb-20 overflow-y-auto">
-        <div className="tooltip float-right tooltip-left" data-tip="Add Event">
-          <Link to="/add-events">
-            <button className="btn btn-primary btn-md btn-circle">
-              <Plus />
-            </button>
-          </Link>
+        <div className="leading-4">
+          <h1 className="font-bold font-mono text-4xl float-left">Events</h1>
+          <div
+            className="tooltip float-right tooltip-left"
+            data-tip="Add Event"
+          >
+            <Link to="/add-events">
+              <button className="btn btn-primary btn-md btn-circle">
+                <Plus />
+              </button>
+            </Link>
+          </div>
         </div>
         <div className="hero">
           <div className="hero-content flex-col lg:flex-row">
