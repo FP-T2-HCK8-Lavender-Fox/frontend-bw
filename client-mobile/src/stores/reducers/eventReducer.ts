@@ -124,7 +124,7 @@ export const getInactiveUserEvents = createAsyncThunk(
   "events/inactiveUserEvents",
   async () => {
     try {
-      const { data } = await api.get("/user-event/inactive", {
+      const { data } = await api.get("/users-event/inactive", {
         headers: {
           access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
         },
