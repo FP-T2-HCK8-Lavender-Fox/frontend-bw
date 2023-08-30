@@ -65,17 +65,35 @@ export default function FriendList({ route }: any) {
         >
           Friend List
         </Button>
-        <Text
-          textAlign="center"
-          fontWeight={"bold"}
-          fontSize={25}
-          // @ts-ignore
-          fontFamily={"Coolvetica"}
-          paddingBottom={20}
-          borderBottomWidth={2}
+        <View
+          style={{
+            backgroundColor: "#ffffff",
+            padding: 20,
+            borderRadius: 10,
+            marginBottom: 20,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }}
         >
-          Recent Chats
-        </Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: 25,
+              fontFamily: "Coolvetica",
+              paddingBottom: 20,
+              borderBottomWidth: 2,
+            }}
+          >
+            Recent Chats
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );
