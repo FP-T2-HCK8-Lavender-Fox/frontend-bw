@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import moment from "moment";
 
-export default function Card({ event }) {
+export default function EventCard({ event }) {
   const dispatch = useDispatch();
 
   const handleDelete = async () => {
@@ -57,6 +57,6 @@ export default function Card({ event }) {
   );
 }
 
-Card.propTypes = {
+EventCard.propTypes = {
   event: PropTypes.object,
 };

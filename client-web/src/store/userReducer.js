@@ -50,7 +50,7 @@ const usersSlice = createSlice({
   name: "events",
   initialState,
   reducers: {
-    setMsgEvent(state, action) {
+    setMsgUser(state, action) {
       state.msg = action.payload;
     },
   },
@@ -86,6 +86,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { setMsgEvent } = usersSlice.actions;
+export const { setMsgUser } = usersSlice.actions;
 
 export default usersSlice.reducer;

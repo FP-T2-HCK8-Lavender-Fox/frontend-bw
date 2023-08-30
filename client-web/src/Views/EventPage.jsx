@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents } from "../store/eventReducer";
 import Toast from "../components/Toast";
-import Card from "../components/Card";
+import EventCard from "../components/EventCard";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 
@@ -41,7 +41,7 @@ export default function Movie() {
             <div className="flex flex-col md:flex-row">
               {!loading && events.length ? (
                 events.map((event) => {
-                  return <Card event={event} key={event.id} />;
+                  return <EventCard event={event} key={event.id} />;
                 })
               ) : (
                 <span className="loading loading-spinner text-neutral"></span>

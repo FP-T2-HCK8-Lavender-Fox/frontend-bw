@@ -8,9 +8,6 @@ export default function Admin() {
   const { users, loading, error, msg } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  console.log(users);
-
-
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);

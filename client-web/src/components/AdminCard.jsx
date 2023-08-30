@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import DeleteModal from "../components/DeleteModal";
 
-export default function Card({ admin }) {
+export default function AdminCard({ admin }) {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleOnClose = () => setDeleteModal(false);
 
@@ -32,6 +32,6 @@ export default function Card({ admin }) {
   );
 }
 
-Card.propTypes = {
+AdminCard.propTypes = {
   admin: PropTypes.object,
 };

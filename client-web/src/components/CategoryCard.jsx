@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import DeleteModal from "./DeleteModal";
 
-export default function Card({ category }) {
+export default function CategoryCard({ category }) {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleOnClose = () => setDeleteModal(false);
 
@@ -30,6 +30,6 @@ export default function Card({ category }) {
   );
 }
 
-Card.propTypes = {
+CategoryCard.propTypes = {
   category: PropTypes.object,
 };
