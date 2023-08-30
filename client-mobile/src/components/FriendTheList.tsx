@@ -15,6 +15,7 @@ export default function FriendTheList({ friends }: any) {
       }}
     >
       <XStack
+        marginHorizontal={40}
         flexDirection="row"
         alignItems="center"
         justifyContent="space-between"

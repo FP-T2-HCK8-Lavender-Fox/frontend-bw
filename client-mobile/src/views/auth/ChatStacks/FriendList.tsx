@@ -1,5 +1,6 @@
-import { Button, ScrollView, Text, View } from "tamagui";
+import { ScrollView, Text, View } from "tamagui";
 import React from "react";
+import { FlatList } from "react-native";
 import HeaderComponent from "../../../components/HeaderComponent";
 import { RootState, useAppDispatch } from "../../../stores/store";
 import { useSelector } from "react-redux";
@@ -9,6 +10,7 @@ import {
 } from "../../../stores/reducers/eventReducer";
 import IsLoading from "../../../components/IsLoading";
 import { useNavigation } from "@react-navigation/native";
+import FriendTheList from "../../../components/FriendTheList";
 
 export default function FriendList({ route }: any) {
   const dispatch = useAppDispatch();
@@ -25,76 +27,42 @@ export default function FriendList({ route }: any) {
   );
 
   React.useEffect(() => {
-    dispatch(getFriendToAcceptList());
-    dispatch(getFriendListOfUser());
+    dispatch(getFriendListOfUser()).then(() =>
+      dispatch(getFriendToAcceptList())
+    );
   }, [dispatch, route]);
 
   if (loading) {
     return <IsLoading />;
   }
   return (
-    <ScrollView flex={1}>
-      <HeaderComponent />
-      <View marginTop={30} paddingBottom={130} paddingHorizontal={40}>
-        {userToAccept.length > 0 && (
-          <Text
-            fontWeight={"bold"}
-            textDecorationLine="underline"
-            color={"#E35335"}
-            marginBottom={20}
-            onPress={() => {
-              // @ts-ignore
-              navigation.navigate("FriendRequest", {
-                userToAccept: userToAccept,
-              });
-            }}
-          >
-            Friend Request
-          </Text>
-        )}
-        <Button
-          onPress={() => {
-            // @ts-ignore
-            navigation.navigate("AllFriendList", {
-              friendList: allUserFriends,
-            });
-          }}
-          marginVertical={10}
-          backgroundColor={"#E35335"}
-          color="white"
-        >
-          Friend List
-        </Button>
-        <View
-          style={{
-            backgroundColor: "#ffffff",
-            padding: 20,
-            borderRadius: 10,
-            marginBottom: 20,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 25,
-              fontFamily: "Coolvetica",
-              paddingBottom: 20,
-              borderBottomWidth: 2,
-            }}
-          >
-            Recent Chats
-          </Text>
-        </View>
-      </View>
-    </ScrollView>
+    <FlatList
+      ListHeaderComponent={
+        <>
+          <HeaderComponent />
+          <View marginTop={30} paddingHorizontal={40}>
+            {userToAccept?.length > 0 && (
+              <Text
+                fontWeight={"bold"}
+                textDecorationLine="underline"
+                color={"#E35335"}
+                marginBottom={20}
+                onPress={() => {
+                  // @ts-ignore
+                  navigation.navigate("FriendRequest", {
+                    userToAccept: userToAccept,
+                  });
+                }}
+              >
+                Friend Request
+              </Text>
+            )}
+          </View>
+        </>
+      }
+      data={allUserFriends}
+      renderItem={({ item }) => <FriendTheList friends={item} />}
+      keyExtractor={({ id }) => id}
+    />
   );
 }

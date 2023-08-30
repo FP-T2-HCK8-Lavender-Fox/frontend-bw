@@ -19,6 +19,7 @@ export default function ParticipantList({
   }, []);
   return (
     <XStack
+      marginHorizontal={40}
       flexDirection="row"
       alignItems="center"
       justifyContent="space-between"

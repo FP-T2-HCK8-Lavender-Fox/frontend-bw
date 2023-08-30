@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCategories, getSelf, putUser } from "../reducers/categoryReducer";
+import {
+  getCategories,
+  getInactiveUserEvents,
+  getSelf,
+  putUser,
+} from "../reducers/categoryReducer";
 getCategories;
 
 export const categorySlice = createSlice({
@@ -19,6 +24,7 @@ export const categorySlice = createSlice({
       createdAt: null,
       updatedAt: null,
     },
+    historyUserEvents: [],
   },
   reducers: {
     // get
@@ -42,6 +48,13 @@ export const categorySlice = createSlice({
       state.isLoading = true;
     },
     [putUser.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+    },
+    [getInactiveUserEvents.pending.type]: (state, action) => {
+      state.isLoading = true;
+    },
+    [getInactiveUserEvents.fulfilled.type]: (state, { payload }) => {
+      state.historyUserEvents = payload;
       state.isLoading = false;
     },
   },

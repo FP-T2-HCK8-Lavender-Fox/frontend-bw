@@ -116,7 +116,8 @@ export default function MainTabs() {
               routeName === "DetailMyEvent" ||
               routeName === "OtherParticipants" ||
               routeName === "CameraForQuiz" ||
-              routeName === "QuizSection"
+              routeName === "QuizSection" ||
+              routeName === "HistoryUserEvents"
             ) {
               return { display: "none" };
             }
@@ -146,11 +147,7 @@ export default function MainTabs() {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (
-              routeName === "FriendRequest" ||
-              routeName === "AllFriendList" ||
-              routeName === "Chat"
-            ) {
+            if (routeName === "FriendRequest" || routeName === "Chat") {
               return { display: "none" };
             }
             return {

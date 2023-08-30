@@ -64,8 +64,21 @@ export default function MyEvents({ navigation, route }: any) {
       ListHeaderComponent={
         <>
           <HeaderComponent />
+          <Text
+            // @ts-ignore
+            fontFamily={"CoolveticaItalic"}
+            textDecorationLine="underline"
+            fontSize={15}
+            marginRight={20}
+            marginTop={20}
+            fontWeight={"500"}
+            textAlign="right"
+            onPress={() => navigation.navigate("HistoryUserEvents")}
+          >
+            Events History
+          </Text>
           <YStack
-            marginVertical={20}
+            marginVertical={10}
             paddingHorizontal={27}
             alignItems="center"
           >
@@ -128,7 +141,7 @@ export default function MyEvents({ navigation, route }: any) {
         <EventsCard navigation={navigation} events={item} route={route} />
       )}
       //@ts-ignore
-      keyExtractor={({ AdminId }) => AdminId}
+      keyExtractor={({ id }) => id}
     ></FlatList>
   );
 }

@@ -1,8 +1,9 @@
-import { View, Text, Button } from "tamagui";
+import { View, Text, Button, Image } from "tamagui";
 import React from "react";
 import IsLoading from "../../../components/IsLoading";
 import { useAppDispatch } from "../../../stores/store";
 import { pushUserAnswer } from "../../../stores/reducers/eventReducer";
+import { Dimensions } from "react-native";
 
 export default function QuizSection({ navigation, route }: any) {
   const { quiz, checkpointNum } = route.params;
@@ -46,7 +47,17 @@ export default function QuizSection({ navigation, route }: any) {
     return <IsLoading />;
   }
   return (
-    <View padding={20} alignItems="center" flex={1}>
+    <View
+      minHeight={Dimensions.get("window").height}
+      justifyContent="center"
+      alignItems="center"
+      flex={1}
+    >
+      <Image
+        resizeMode="contain"
+        source={require("../../../../assets/question-mark.png")}
+        maxHeight={200}
+      />
       <Text
         textAlign="center"
         fontSize={23}

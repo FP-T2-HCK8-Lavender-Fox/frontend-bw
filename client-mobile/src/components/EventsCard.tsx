@@ -1,6 +1,5 @@
-import { Button, Card, Image, Paragraph, Text, XStack } from "tamagui";
+import { Card, Image, Paragraph, Text, XStack, YStack } from "tamagui";
 import React from "react";
-import { Events } from "../models/events";
 
 export const EventsCard = ({
   events,
@@ -26,86 +25,75 @@ export const EventsCard = ({
         scale={0.9}
         borderRadius="$5"
         pressStyle={{ scale: 0.875 }}
+        onPress={() =>
+          route.name === "HomePage"
+            ? navigation.navigate("DetailHomePage", {
+                id: events.id,
+              })
+            : navigation.navigate("DetailMyEvent", {
+                id: events.id,
+              })
+        }
       >
         <Card.Header padded>
-          <Text
-            textShadowColor={"rgba(0, 0, 0, 0.75)"}
-            textShadowOffset={{ width: -1, height: 1 }}
-            textShadowRadius={10}
-            fontSize={24}
-            fontWeight={"600"}
-            color={"white"}
+          <XStack
+            top={20}
+            backgroundColor={"rgba(246, 239, 233, 0.6)"}
+            padding={40}
+            borderRadius={80}
+            right={20}
+            position="absolute"
+            justifyContent="center"
+            alignItems="center"
           >
-            {events.name}
-          </Text>
-          <Text
-            textShadowColor={"rgba(0, 0, 0, 0.75)"}
-            textShadowOffset={{ width: -1, height: 1 }}
-            textShadowRadius={10}
-            fontSize={12}
-            color={"white"}
-          >
-            <Text fontWeight={"bold"} color={"white"} fontSize={16}>
-              Start :
-            </Text>{" "}
-            {new Date(events.startDate).toLocaleDateString("id-ID", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-            })}
-          </Text>
-          <Text
-            textShadowColor={"rgba(0, 0, 0, 0.75)"}
-            textShadowOffset={{ width: -1, height: 1 }}
-            textShadowRadius={10}
-            fontSize={12}
-            color={"white"}
-          >
-            <Text fontWeight={"bold"} color={"white"} fontSize={16}>
-              End :
-            </Text>{" "}
-            {new Date(events.endDate).toLocaleDateString("id-ID", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-            })}
-          </Text>
-          <Paragraph
-            textShadowColor={"rgba(0, 0, 0, 0.75)"}
-            textShadowOffset={{ width: -1, height: 1 }}
-            textShadowRadius={10}
-            color={"white"}
-          >
-            {events.description}
-          </Paragraph>
+            <YStack position="absolute">
+              <Text
+                textAlign="center"
+                //@ts-ignore
+                fontFamily={"Coolvetica"}
+                color={"white"}
+                fontSize={30}
+              >
+                {new Date(events.startDate).getDate()}
+              </Text>
+              <Text
+                textAlign="center"
+                //@ts-ignore
+                fontFamily={"Coolvetica"}
+                color={"white"}
+                fontSize={21}
+              >
+                {new Date(events.startDate).toLocaleDateString("en-EN", {
+                  month: "short",
+                })}
+              </Text>
+            </YStack>
+          </XStack>
         </Card.Header>
         <Card.Footer>
-          <XStack flex={1} />
-          <Button
-            onPress={() =>
-              route.name === "HomePage"
-                ? navigation.navigate("DetailHomePage", {
-                    id: events.id,
-                  })
-                : navigation.navigate("DetailMyEvent", {
-                    id: events.id,
-                  })
-            }
-            position="absolute"
-            right={20}
-            bottom={20}
-            borderRadius="$10"
-            backgroundColor={"#E35335"}
-            color="white"
-          >
-            Details
-          </Button>
+          <YStack position="absolute" bottom={20} left={20}>
+            <Text
+              textShadowColor={"rgba(0, 0, 0, 0.75)"}
+              textShadowOffset={{ width: -1, height: 1 }}
+              textShadowRadius={10}
+              //@ts-ignore
+              fontFamily={"Kredit"}
+              fontSize={22}
+              fontWeight={"600"}
+              color={"white"}
+            >
+              {events.name}
+            </Text>
+
+            <Paragraph
+              textShadowColor={"rgba(0, 0, 0, 0.75)"}
+              textShadowOffset={{ width: -1, height: 1 }}
+              textShadowRadius={10}
+              color={"white"}
+            >
+              {events.description}
+            </Paragraph>
+          </YStack>
         </Card.Footer>
         <Card.Background borderRadius="$5" backgroundColor={"grey"}>
           <Image

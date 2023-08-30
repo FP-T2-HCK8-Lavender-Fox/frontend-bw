@@ -18,6 +18,7 @@ export default function App() {
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
     Coolvetica: require("./assets/fonts/coolvetica/coolvetica-rg.otf"),
     CoolveticaItalic: require("./assets/fonts/coolvetica/coolvetica-rg-it.otf"),
+    Kredit: require("./assets/fonts/kredit/kredit-back.otf"),
   });
 
   if (!loaded) {

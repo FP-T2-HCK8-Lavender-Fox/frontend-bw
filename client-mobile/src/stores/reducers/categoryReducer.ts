@@ -51,3 +51,20 @@ export const getSelf = createAsyncThunk("users/self", async () => {
     console.log(error);
   }
 });
+
+export const getInactiveUserEvents = createAsyncThunk(
+  "events/inactiveUserEvents",
+  async () => {
+    try {
+      const { data } = await api.get("/user-event/inactive", {
+        headers: {
+          access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
+        },
+      });
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

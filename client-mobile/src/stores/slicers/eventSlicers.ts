@@ -15,7 +15,6 @@ import {
   acceptFriendRequest,
   rejectFriendRequest,
   getAllEventsByCategoryId,
-  getInactiveUserEvents,
   getUserEventsByCategory,
 } from "../reducers/eventReducer";
 
@@ -222,12 +221,6 @@ export const eventsSlice = createSlice({
     },
     [getUserEventsByCategory.fulfilled.type]: (state, { payload }) => {
       state.events.eventsOfUser = payload;
-      state.events.isLoading = false;
-    },
-    [getInactiveUserEvents.pending.type]: (state, action) => {
-      state.events.isLoading = true;
-    },
-    [getInactiveUserEvents.fulfilled.type]: (state, action) => {
       state.events.isLoading = false;
     },
   },

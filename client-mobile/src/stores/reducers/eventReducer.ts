@@ -120,23 +120,6 @@ export const getUserEventsByCategory = createAsyncThunk(
   }
 );
 
-export const getInactiveUserEvents = createAsyncThunk(
-  "events/inactiveUserEvents",
-  async () => {
-    try {
-      const { data } = await api.get("/users-event/inactive", {
-        headers: {
-          access_token: await SecureStore.getItemAsync("ACCESS_TOKEN"),
-        },
-      });
-
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
 export const getEventOfUserByEventId = createAsyncThunk(
   "events/getEventsOfUserById",
   async (eventId: number) => {
