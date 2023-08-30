@@ -17,22 +17,55 @@ export default function FriendRequestList({
 }) {
   return (
     <XStack
-      justifyContent="space-between"
-      paddingVertical={10}
-      paddingHorizontal={20}
-      borderBottomWidth={1}
+      flexDirection="row"
       alignItems="center"
+      justifyContent="space-between"
+      paddingHorizontal={20}
+      paddingVertical={10}
+      borderBottomWidth={1}
+      borderColor="#ccc"
+      marginBottom={10}
+      backgroundColor="white"
+      borderRadius={10}
+      shadowColor="#000"
+      shadowOffset={{
+        width: 0,
+        height: 2,
+      }}
+      shadowOpacity={0.2}
+      shadowRadius={4}
+      elevation={5}
     >
-      <Text
-        // @ts-ignore
-        fontFamily={"Coolvetica"}
-        fontWeight={"600"}
-        fontSize={20}
-        textAlign="center"
-        marginRight={20}
-      >
-        {friendrequest.name}
-      </Text>
+      <XStack flexDirection="row" alignItems="center">
+        <XStack
+          backgroundColor="#87ceeb"
+          width={40}
+          height={40}
+          borderRadius={20}
+          alignItems="center"
+          justifyContent="center"
+          marginRight={10}
+        >
+          <Text
+            // @ts-ignore
+            fontFamily="Coolvetica"
+            fontWeight="600"
+            fontSize={16}
+            color="white"
+          >
+            {friendrequest.name.charAt(0)}
+          </Text>
+        </XStack>
+        <Text
+          // @ts-ignore
+          fontFamily="Coolvetica"
+          fontWeight="600"
+          fontSize={20}
+          textAlign="center"
+        >
+          {friendrequest.name}
+        </Text>
+      </XStack>
       <Button
         onPress={() => {
           dispatch(acceptFriendRequest(friendrequest.id))
