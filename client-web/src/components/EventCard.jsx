@@ -1,12 +1,14 @@
 import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import EventForm from "../components/EventForm";
 import {
   fetchEvents,
   deleteEventById,
   setMsgEvent,
   patchStatusEventById,
 } from "../store/eventReducer";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import moment from "moment";
 
 export default function EventCard({ event }) {
@@ -19,6 +21,9 @@ export default function EventCard({ event }) {
       dispatch(setMsgEvent(""));
     }, 2000);
   };
+
+  const [eventModal, setEventModal] = useState(false);
+  const handleOnCloseEvent = () => setEventModal(false);
 
   const patchStatus = async () => {
     if (event.active) {
@@ -41,15 +46,13 @@ export default function EventCard({ event }) {
       >
         <figure>
           <Link to={`/events/` + event.id}>
-            <img src={event.pics} alt="Shoes" className="w-full" />
+            <img src={event.pics} alt="Shoes" className="min-w-max max-h-52" />
           </Link>
         </figure>
-        <div className="card-body pt-2 h-10 hover:h-full transition-all">
+        <div className="card-body w-full pt-2 h-10 hover:h-full transition-all">
           <div className="flex leading-4 ">
             <h2 className="card-title">{event.name}</h2>
-            <p className="m-1 badge badge-neutral ml-16">
-              {event.Category.name}
-            </p>
+            <p className="m-1 badge badge-neutral">{event.Category.name}</p>
           </div>
           <p>
             Prize pool:{" "}
@@ -73,9 +76,12 @@ export default function EventCard({ event }) {
               </label>
             </div>
             <div>
-              <Link to={"/edit-events/" + event.id}>
-                <button className="btn btn-primary mx-1">Edit</button>
-              </Link>
+              <button
+                className="my-2 btn btn-primary btn-sm lg:btn-md"
+                onClick={() => setEventModal(true)}
+              >
+                Edit
+              </button>
               <button className="btn btn-primary" onClick={handleDelete}>
                 Delete
               </button>
@@ -83,6 +89,11 @@ export default function EventCard({ event }) {
           </div>
         </div>
       </div>
+      <EventForm
+        visible={eventModal}
+        onClose={handleOnCloseEvent}
+        event={event}
+      />
     </>
   );
 }
