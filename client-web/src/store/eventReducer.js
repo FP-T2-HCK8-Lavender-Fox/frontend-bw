@@ -26,21 +26,24 @@ export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
   }
 });
 
-export const fetchEventById = createAsyncThunk("events/fetchEventById", async (id) => {
-  try {
-    let options = {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await fetch(baseUrl + "/events/" + id, options);
-    const event = await response.json();
-    return event;
-  } catch (error) {
-    return error;
+export const fetchEventById = createAsyncThunk(
+  "events/fetchEventById",
+  async (id) => {
+    try {
+      let options = {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(baseUrl + "/events/" + id, options);
+      const event = await response.json();
+      return event;
+    } catch (error) {
+      return error;
+    }
   }
-});
+);
 
 export const postEvent = createAsyncThunk(
   "events/postEvents",
@@ -81,6 +84,30 @@ export const editEventById = createAsyncThunk(
         body: JSON.stringify(event),
       };
       const response = await fetch(baseUrl + "/events/" + event.id, options);
+      const res = await response.json();
+      return res.message;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const patchStatusEventById = createAsyncThunk(
+  "events/patchStatusEventById",
+  async (event) => {
+    try {
+      let options = {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          access_token: localStorage.getItem("access_token"),
+        },
+        body: JSON.stringify(event),
+      };
+      const response = await fetch(
+        baseUrl + "/events/status/" + event.id,
+        options
+      );
       const res = await response.json();
       return res.message;
     } catch (error) {
@@ -171,6 +198,20 @@ const eventsSlice = createSlice({
       })
 
       .addCase(editEventById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(patchStatusEventById.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(patchStatusEventById.fulfilled, (state, action) => {
+        state.msg = action.payload;
+        state.loading = false;
+      })
+
+      .addCase(patchStatusEventById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

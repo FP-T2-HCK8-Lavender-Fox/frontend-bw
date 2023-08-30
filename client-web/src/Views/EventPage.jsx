@@ -38,7 +38,7 @@ export default function Movie() {
         </div>
         <div className="hero">
           <div className="hero-content flex-col lg:flex-row">
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col lg:flex-row">
               {!loading && events.length ? (
                 events.map((event) => {
                   return <EventCard event={event} key={event.id} />;
