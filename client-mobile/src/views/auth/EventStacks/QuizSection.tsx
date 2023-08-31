@@ -67,7 +67,12 @@ export default function QuizSection({ navigation, route }: any) {
       >
         Checkpoint {checkpointNum}
       </Text>
-      <Text fontWeight={"400"} fontSize={17} marginVertical={2}>
+      <Text
+        fontWeight={"400"}
+        fontSize={17}
+        marginHorizontal={20}
+        marginVertical={2}
+      >
         {quiz.question}
       </Text>
       <Button
