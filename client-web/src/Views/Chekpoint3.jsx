@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchEvents, postEvent, setMsgEvent } from "../store/eventReducer";
 import { Link } from "react-router-dom";
 
-import MapModal from "./MapModal";
+import MapModal from "../components/MapModal";
 var event;
 
 export default function AddEvent() {

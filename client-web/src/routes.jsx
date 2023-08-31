@@ -1,9 +1,9 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import EventPage from "./Views/EventPage";
-import AddEventMain from "./components/AddEventMain";
-import Chekpoint1 from "./components/Chekpoint1";
-import Chekpoint2 from "./components/Chekpoint2";
-import Chekpoint3 from "./components/Chekpoint3";
+import AddEventMain from "./Views/AddEventMain";
+import Chekpoint1 from "./Views/Chekpoint1";
+import Chekpoint2 from "./Views/Chekpoint2";
+import Chekpoint3 from "./Views/Chekpoint3";
 import Admin from "./Views/Admin";
 import UserPage from "./Views/UserPage";
 import Category from "./Views/Category";
