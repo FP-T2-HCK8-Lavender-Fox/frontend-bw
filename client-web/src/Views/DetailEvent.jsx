@@ -9,6 +9,7 @@ import {
 import {
   fetchLeaderboards,
   postLeaderboard,
+  deleteLeaderboardById,
 } from "../store/leaderboardsReducer";
 import { useParams } from "react-router-dom";
 import QrModal from "../components/QrModal";
@@ -51,6 +52,13 @@ export default function Admin() {
     await dispatch(postLeaderboard(data));
     await dispatch(fetchLeaderboards(id));
   };
+
+  const handleUpdateLeaderboard = async () => {
+    await dispatch(deleteLeaderboardById(leaderboards));
+    await handleCreateLeaderboard();
+  };
+
+  console.log(leaderboards)
 
   useEffect(() => {
     dispatch(fetchEventById(id));
@@ -140,7 +148,19 @@ export default function Admin() {
               <div className="grid flex-grow h-48 card items-center m-10 p-10">
                 <div className="flex flex-row justify-between mb-2 leading-4">
                   <h2 className="text-bold text-2xl font-mono">Leaderboards</h2>
-                  {leaderboards.length ? null : (
+                  {leaderboards.length ? (
+                    <div
+                      className="tooltip float-right tooltip-right"
+                      data-tip="Update Leaderboards"
+                    >
+                      <button
+                        className="btn btn-primary btn-sm btn-circle"
+                        onClick={handleUpdateLeaderboard}
+                      >
+                        <Plus />
+                      </button>
+                    </div>
+                  ) : (
                     <div
                       className="tooltip float-right tooltip-right"
                       data-tip="Create Leaderboards"
