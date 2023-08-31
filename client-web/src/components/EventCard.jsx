@@ -53,7 +53,7 @@ export default function EventCard({ event }) {
             />
           </Link>
         </figure>
-        <div className="card-body pt-2 h-10 hover:h-full ease-out duration-1000 overflow-hidden">
+        <div className="card-body pt-2 h-10 hover:h-56 ease-in-out duration-200 overflow-hidden">
           <div className="flex leading-4 ">
             <h2 className="card-title">{event.name}</h2>
             <p className="m-1 badge badge-white">{event.Category.name}</p>
