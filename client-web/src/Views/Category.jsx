@@ -24,7 +24,7 @@ export default function Genre() {
       {msg && <Toast msg={msg} />}
       {loading && <span className="loading loading-bars loading-lg"></span>}
       {!loading && error ? <div>Error: {error}</div> : null}
-      <div className="mt-14 mb-20 overflow-y-auto">
+      <div className="mt-10 mb-12 w-full h-full flex-wrap overflow-x-auto">
         <div className="leading-4">
           <h1 className="font-bold font-mono text-4xl float-left">Category</h1>
           <div
@@ -40,8 +40,8 @@ export default function Genre() {
           </div>
         </div>
         <div className="hero">
-          <div className="hero-content flex-col lg:flex-row">
-            <div className="flex flex-col md:flex-row">
+          <div className="hero-content">
+            <div className="md:w-full lg:w-screen z-10 sm:grid md:grid md:grid-cols-2 lg:grid-cols-5">
               {!loading && categories.length ? (
                 categories.map((category) => {
                   return <CategoryCard category={category} key={category.id} />;

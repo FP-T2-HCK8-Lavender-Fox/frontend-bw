@@ -8,8 +8,8 @@ export default function CategoryCard({ category }) {
 
   return (
     <>
-      <div className="card my-2 w-44 h-full shadow-lg bg-neutral mx-2 hover:scale-105 ease-in duration-200 overflow-hidden">
-        <div className="card-body pt-2 h-10 w-full hover:h-full transition-all">
+      <div className="z-20 card group m-4 bg-neutral shadow-lg hover:scale-105 ease-in duration-200 self-start">
+        <div className="card-body pt-2 h-10 hover:h-28 ease-in-out duration-200 overflow-hidden">
           <div className="flex leading-4">
             <h2 className="card-title">{category.name}</h2>
           </div>
