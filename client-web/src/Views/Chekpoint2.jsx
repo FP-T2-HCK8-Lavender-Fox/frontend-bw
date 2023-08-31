@@ -3,7 +3,7 @@ import { useState } from "react";
 import { setCheckpoint2 } from "../store/checkpointReducer";
 import { Link } from "react-router-dom";
 
-import MapModal from "./MapModal";
+import MapModal from "../components/MapModal";
 
 export default function AddEvent() {
   const dispatch = useDispatch();

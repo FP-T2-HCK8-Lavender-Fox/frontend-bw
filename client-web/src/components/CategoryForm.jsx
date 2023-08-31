@@ -59,8 +59,8 @@ export default function CategoryForm({ visible, onClose, category }) {
         onClick={handleOnClose}
         className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center"
       >
-        <div className="hero-content text-center bg-neutral rounded-3xl">
-          <div className="card bg-neutral w-96">
+        <div className="hero-content text-center bg-white rounded-3xl">
+          <div className="card bg-white w-96">
             <button
               onClick={onClose}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"

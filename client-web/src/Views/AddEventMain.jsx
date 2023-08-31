@@ -135,8 +135,8 @@ export default function AddEvent() {
                 handleOnDrag={changeOnDrag}
                 handleOnClick={changeOnClick}
                 handleOnSelect={changeOnSelect}
-                lati={dataEvent.lat}
-                longi={dataEvent.long}
+                lati={eventForm ? eventForm.lat : dataEvent.lat}
+                longi={eventForm ? eventForm.long : dataEvent.long}
               />
               <form>
                 <h1 className="card-title font-mono">Add Event</h1>
