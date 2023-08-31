@@ -41,6 +41,16 @@ export default function FriendList({ route }: any) {
         <>
           <HeaderComponent />
           <View marginTop={30} paddingHorizontal={40}>
+            <Text
+              // @ts-ignore
+              fontFamily={"Coolvetica"}
+              fontSize={30}
+              fontWeight={"600"}
+              marginBottom={10}
+              textAlign="center"
+            >
+              Home
+            </Text>
             {userToAccept?.length > 0 && (
               <Text
                 fontWeight={"bold"}
