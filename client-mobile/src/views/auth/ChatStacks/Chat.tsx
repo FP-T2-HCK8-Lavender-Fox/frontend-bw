@@ -44,7 +44,7 @@ export default function Chat({ route }: any) {
   return (
     // @ts-ignore
 
-    <TalkRn.Session appId="tcehwMYz" me={me}>
+    <TalkRn.Session appId="tDrNYdEW" me={me}>
       <TalkRn.Chatbox
         conversationBuilder={conversationBuilder}
         // @ts-ignore

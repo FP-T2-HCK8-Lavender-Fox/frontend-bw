@@ -375,9 +375,9 @@ export default function DetailMyEvent({ route }: any) {
                   </Button>
                 </View>
               </>
-            ) : fixQuiz[0].trueOrFalse &&
-              fixQuiz[1].trueOrFalse &&
-              fixQuiz[2].trueOrFalse &&
+            ) : fixQuiz[0].trueOrFalse !== null &&
+              fixQuiz[1].trueOrFalse !== null &&
+              fixQuiz[2].trueOrFalse !== null &&
               event.leaderboard === null ? (
               <>
                 <View
