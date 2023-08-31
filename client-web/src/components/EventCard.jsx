@@ -40,19 +40,23 @@ export default function EventCard({ event }) {
       <div
         className={
           event.active
-            ? "card my-2 sm:w-11/12 h-full bg-base-100 shadow-lg mx-2 hover:scale-105 ease-in duration-200 overflow-hidden"
-            : "card my-2 sm:w-11/12 h-full bg-base-100 shadow-lg mx-2 hover:scale-105 ease-in duration-200 overflow-hidden"
+            ? "z-20 card group m-4 bg-neutral shadow-lg hover:scale-105 ease-in duration-200 self-start"
+            : "z-20 card group m-4 bg-gray-400 shadow-lg hover:scale-105 ease-in duration-200 self-start"
         }
       >
         <figure>
           <Link to={`/events/` + event.id}>
-            <img src={event.pics} alt="Shoes" className="min-w-max max-h-52" />
+            <img
+              src={event.pics}
+              alt="Shoes"
+              className="z-40 h-40 group-hover:h-72 group-hover:w-full ease-in duration-300 overflow-visible"
+            />
           </Link>
         </figure>
-        <div className="card-body w-full pt-2 h-10 hover:h-full transition-all">
+        <div className="card-body pt-2 h-10 hover:h-full ease-out duration-500 overflow-hidden">
           <div className="flex leading-4 ">
             <h2 className="card-title">{event.name}</h2>
-            <p className="m-1 badge badge-neutral">{event.Category.name}</p>
+            <p className="m-1 badge badge-white">{event.Category.name}</p>
           </div>
           <p>
             Prize pool:{" "}
@@ -66,7 +70,9 @@ export default function EventCard({ event }) {
           <div className="card-actions justify-between">
             <div className="form-control">
               <label className="label cursor-pointer">
-                <span className="label-text mr-1">Active</span>
+                <span className="label-text mr-1">
+                  {event.active ? "Active" : "Inactive"}
+                </span>
                 <input
                   type="checkbox"
                   className="toggle"
@@ -76,20 +82,14 @@ export default function EventCard({ event }) {
               </label>
             </div>
             <div>
-              <Link to={"/detail/" + event.id} >
+              <Link to={"/detail/" + event.id}>
                 <button
-                  className="my-2 btn btn-primary btn-sm lg:btn-md"
+                  className="mx-2 btn btn-primary btn-sm lg:btn-md"
                   value="next"
                 >
                   Edit
                 </button>
               </Link>
-              {/* <button
-                className="my-2 btn btn-primary btn-sm lg:btn-md"
-                onClick={() => setEventModal(true)}
-              >
-                Edit
-              </button> */}
               <button className="btn btn-primary" onClick={handleDelete}>
                 Delete
               </button>
