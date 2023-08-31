@@ -26,6 +26,9 @@ export default function HomePage({ navigation, route }: any) {
   const eventLoading = useSelector(
     (state: RootState) => state.events.events.isLoading
   );
+  const categoryLoading = useSelector(
+    (state: RootState) => state.categories.isLoading
+  );
   const categories: Categories[] = useSelector(
     (state: RootState) => state.categories.fullCategories
   );
@@ -39,7 +42,7 @@ export default function HomePage({ navigation, route }: any) {
   const data = categories.map((el) => ({ name: el.name, code: el.id }));
   data.unshift({ name: "Select All", code: -1 });
 
-  if (eventLoading || categories.length === 0) {
+  if (eventLoading || categoryLoading || categories.length === 0) {
     return <IsLoading />;
   }
   return (

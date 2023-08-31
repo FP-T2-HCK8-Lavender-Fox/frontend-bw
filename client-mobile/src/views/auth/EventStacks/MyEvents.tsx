@@ -22,6 +22,9 @@ export default function MyEvents({ navigation, route }: any) {
   const loading = useSelector(
     (state: RootState) => state.events.events.isLoading
   );
+  const categoryLoading = useSelector(
+    (state: RootState) => state.categories.isLoading
+  );
   const event: UserEvents[] = useSelector(
     (state: RootState) => state.events.events.eventsOfUser
   );
@@ -29,8 +32,7 @@ export default function MyEvents({ navigation, route }: any) {
     (state: RootState) => state.categories.fullCategories
   );
   React.useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getEventsOfUsers());
+    dispatch(getEventsOfUsers()).then(() => dispatch(getCategories()));
   }, [dispatch, route]);
 
   const eventList = event?.map((ele) => ({
@@ -56,7 +58,7 @@ export default function MyEvents({ navigation, route }: any) {
   const data = categories?.map((el) => ({ name: el.name, code: el.id }));
   data.unshift({ name: "Select All", code: -1 });
 
-  if (loading || categories.length === 0) {
+  if (loading || categoryLoading || categories.length === 0) {
     return <IsLoading />;
   }
   return (
