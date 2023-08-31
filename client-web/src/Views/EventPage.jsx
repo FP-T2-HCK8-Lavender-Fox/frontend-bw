@@ -18,10 +18,6 @@ export default function Movie() {
   return (
     <>
       {msg && <Toast msg={msg} />}
-      {loading && (
-        <span className="loading loading-spinner text-neutral"></span>
-      )}
-      {!loading && error ? <div>Error: {error}</div> : null}
 
       <div className=" mt-10 mb-12 w-full h-full flex-wrap overflow-x-auto">
         <div className="leading-4">
@@ -40,6 +36,10 @@ export default function Movie() {
         <div className="hero">
           <div className="hero-content">
             <div className=" md:w-full lg:w-screen z-10 sm:grid md:grid md:grid-cols-2 lg:grid-cols-3">
+              {loading && (
+                <span className="loading loading-spinner text-neutral"></span>
+              )}
+              {!loading && error ? <div>Error: {error}</div> : null}
               {!loading && events.length ? (
                 events.map((event) => {
                   return <EventCard event={event} key={event.id} />;
