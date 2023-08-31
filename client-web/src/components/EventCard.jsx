@@ -76,12 +76,20 @@ export default function EventCard({ event }) {
               </label>
             </div>
             <div>
-              <button
+              <Link to={"/detail/" + event.id} >
+                <button
+                  className="my-2 btn btn-primary btn-sm lg:btn-md"
+                  value="next"
+                >
+                  Edit
+                </button>
+              </Link>
+              {/* <button
                 className="my-2 btn btn-primary btn-sm lg:btn-md"
                 onClick={() => setEventModal(true)}
               >
                 Edit
-              </button>
+              </button> */}
               <button className="btn btn-primary" onClick={handleDelete}>
                 Delete
               </button>

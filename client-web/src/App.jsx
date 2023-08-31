@@ -5,11 +5,12 @@ import store from "./store";
 import { Provider } from "react-redux";
 
 function App() {
-  return (
+
+  return  (
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  );
+  ) 
 }
 
 export default App;

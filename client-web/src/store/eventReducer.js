@@ -6,6 +6,19 @@ const initialState = {
   loading: false,
   events: [],
   event: {},
+  eventForm: {
+    name: "",
+    startDate: "",
+    endDate: "",
+    active: true,
+    description: "",
+    amount: "",
+    address: "",
+    lat: "",
+    long: "",
+    CategoryId: 0,
+    pics: "",
+  },
   error: "",
   msg: "",
 };
@@ -49,10 +62,13 @@ export const postEvent = createAsyncThunk(
   "events/postEvents",
   async (event) => {
     try {
+
+      console.log(event);
       let formData = new FormData();
       for (const key in event) {
         formData.append(`${key}`, event[key]);
       }
+
 
       let options = {
         method: "post",
@@ -143,6 +159,9 @@ const eventsSlice = createSlice({
     setMsgEvent(state, action) {
       state.msg = action.payload;
     },
+    setEventForm(state, action) {
+      state.eventForm = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -180,11 +199,35 @@ const eventsSlice = createSlice({
 
       .addCase(postEvent.fulfilled, (state, action) => {
         state.msg = action.payload;
+        state.eventForm = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          active: true,
+          description: "",
+          amount: "",
+          address: "",
+          lat: "",
+          long: "",
+          CategoryId: 0,
+        };
         state.loading = false;
       })
 
       .addCase(postEvent.rejected, (state, action) => {
         state.loading = false;
+        state.eventForm = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          active: true,
+          description: "",
+          amount: "",
+          address: "",
+          lat: "",
+          long: "",
+          CategoryId: 0,
+        };
         state.error = action.error.message;
       })
 
@@ -194,11 +237,35 @@ const eventsSlice = createSlice({
 
       .addCase(editEventById.fulfilled, (state, action) => {
         state.msg = action.payload;
+        state.eventForm = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          active: true,
+          description: "",
+          amount: "",
+          address: "",
+          lat: "",
+          long: "",
+          CategoryId: 0,
+        };
         state.loading = false;
       })
 
       .addCase(editEventById.rejected, (state, action) => {
         state.loading = false;
+        state.eventForm = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          active: true,
+          description: "",
+          amount: "",
+          address: "",
+          lat: "",
+          long: "",
+          CategoryId: 0,
+        };
         state.error = action.error.message;
       })
 
@@ -232,6 +299,6 @@ const eventsSlice = createSlice({
   },
 });
 
-export const { setMsgEvent } = eventsSlice.actions;
+export const { setMsgEvent, setEventForm } = eventsSlice.actions;
 
 export default eventsSlice.reducer;

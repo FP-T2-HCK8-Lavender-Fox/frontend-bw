@@ -7,6 +7,33 @@ const initialState = {
   checkpointLoading: false,
   checkpoints: [],
   chekcpointError: "",
+  checkpoint1: {
+    name: "",
+    lat: "",
+    long: "",
+    question: "",
+    trueAnswer: "",
+    wrongAnswerOne: "",
+    wrongAnswerTwo: "",
+  },
+  checkpoint2: {
+    name: "",
+    lat: "",
+    long: "",
+    question: "",
+    trueAnswer: "",
+    wrongAnswerOne: "",
+    wrongAnswerTwo: "",
+  },
+  checkpoint3: {
+    name: "",
+    lat: "",
+    long: "",
+    question: "",
+    trueAnswer: "",
+    wrongAnswerOne: "",
+    wrongAnswerTwo: "",
+  },
   qr: [],
 };
 
@@ -52,6 +79,15 @@ const checkpointsSlice = createSlice({
     setMsg(state, action) {
       state.msg = action.payload;
     },
+    setCheckpoint1(state, action) {
+      state.checkpoint1 = action.payload;
+    },
+    setCheckpoint2(state, action) {
+      state.checkpoint2 = action.payload;
+    },
+    setCheckpoint3(state, action) {
+      state.checkpoint3 = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -86,6 +122,7 @@ const checkpointsSlice = createSlice({
   },
 });
 
-export const { setMsg } = checkpointsSlice.actions;
+export const { setMsg, setCheckpoint1, setCheckpoint2, setCheckpoint3 } =
+  checkpointsSlice.actions;
 
 export default checkpointsSlice.reducer;
