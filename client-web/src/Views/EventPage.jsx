@@ -23,7 +23,7 @@ export default function Movie() {
       )}
       {!loading && error ? <div>Error: {error}</div> : null}
 
-      <div className="border mt-10 mb-12 w-full h-full flex-wrap overflow-y-scroll">
+      <div className=" mt-10 mb-12 w-full h-full flex-wrap overflow-y-scroll">
         <div className="leading-4">
           <h1 className="font-bold font-mono text-4xl float-left">Events</h1>
           <div
@@ -39,7 +39,7 @@ export default function Movie() {
         </div>
         <div className="hero ">
           <div className="hero-content">
-            <div className="border w-screen z-10 grid grid-cols-3 ">
+            <div className=" w-screen z-10 grid grid-cols-3 ">
               {!loading && events.length ? (
                 events.map((event) => {
                   return <EventCard event={event} key={event.id} />;
