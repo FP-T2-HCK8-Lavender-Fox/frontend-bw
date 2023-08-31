@@ -67,9 +67,9 @@ export default function Admin() {
       )}
       {!loading && error ? <div>Error: {error}</div> : null}
       {!loading && dataEvent ? (
-        <div className="border mt-14 mb-20 shadow-2xl rounded-2xl overflow-y-auto">
-          <div className="">
-            <div className="hero-content flex-col lg:flex-row">
+        <div className="border mt-14 mb-20 shadow-2xl w-screen rounded-2xl h-full overflow-y-auto">
+          <div className="w-11/12">
+            <div className="hero-content flex-col lg:flex-row w-full">
               <img
                 src={dataEvent.pics}
                 className="max-w-sm rounded-lg shadow-md bg-neutral"
@@ -84,7 +84,7 @@ export default function Admin() {
                 </p>
                 <div className="flex pt-6 justify-around">
                   <div>
-                    <p>
+                    <p className="my-1 badge badge-neutral font-bold shadow-xl">
                       Prize pool:{" "}
                       {new Intl.NumberFormat("id-ID", {
                         style: "currency",
@@ -93,9 +93,13 @@ export default function Admin() {
                     </p>
                     <p className="text-left">Address: {dataEvent.address}</p>
                   </div>
-                  <div>
-                    <p>Start : {moment(dataEvent.startDate).format("LLLL")}</p>
-                    <p>End : {moment(dataEvent.endDate).format("LLLL")}</p>
+                  <div className="whitespace-nowrap flex-col flex">
+                    <p className="my-1 badge badge-neutral font-bold shadow-xl">
+                      Start : {moment(dataEvent.startDate).format("LLLL")}
+                    </p>
+                    <p className="my-1 badge badge-neutral font-bold shadow-xl">
+                      End : {moment(dataEvent.endDate).format("LLLL")}
+                    </p>
                   </div>
                 </div>
                 <p className="py-2 text-left">
@@ -109,120 +113,122 @@ export default function Admin() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="hero">
-            <div className="hero-content flex-col">
-              <p>Participant List</p>
-              <div>
-                {dataUsers.map((el) => {
-                  return (
-                    <div key={el.UserId} className="avatar placeholder m-1">
-                      <div className="bg-neutral text-neutral-content rounded-full w-12">
-                        <span>
-                          {el.User.name
-                            .match(/(^[a-z]|\s[a-z])/gi)
-                            .join("")
-                            .split(" ")
-                            .join("")
-                            .toUpperCase()}
-                        </span>
+            <div className="hero">
+              <div className="hero-content flex-col">
+                <p>Participant List</p>
+                <div>
+                  {dataUsers.map((el) => {
+                    return (
+                      <div key={el.UserId} className="avatar placeholder m-1">
+                        <div className="bg-neutral text-neutral-content rounded-full w-12">
+                          <span>
+                            {el.User.name
+                              .match(/(^[a-z]|\s[a-z])/gi)
+                              .join("")
+                              .split(" ")
+                              .join("")
+                              .toUpperCase()}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div className=" flex flex-col lg:flex-row w-full mb-36">
-            <div className="grid flex-grow h-48 card items-center m-10 p-10">
-              <div className="flex flex-row justify-between mb-2 leading-4">
-                <h2 className="text-bold text-2xl font-mono">Leaderboards</h2>
-                {leaderboards.length ? null : (
-                  <div
-                    className="tooltip float-right tooltip-right"
-                    data-tip="Create Leaderboards"
-                  >
-                    <button
-                      className="btn btn-primary btn-sm btn-circle"
-                      onClick={handleCreateLeaderboard}
-                    >
-                      <Plus />
-                    </button>
-                  </div>
-                )}
-              </div>
-              <table className="table rounded-full">
-                <thead>
-                  <tr className="font-mono text-black font-bold text-2xl bg-neutral">
-                    <th>User</th>
-                    <th>Points</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-yellow-300">
-                  {leaderboards.length ? (
-                    leaderboardLoading ? (
-                      <span className="  loading loading-spinner w-28 text-neutral"></span>
-                    ) : (
-                      leaderboards.map((el, i) => {
-                        return (
-                          <tr
-                            key={dataUsers[i].UserId}
-                            className="font-mono text-black font-bold text-lg"
-                          >
-                            <td>{dataUsers[i].User.name}</td>
-                            <td>{dataUsers[i].point}</td>
-                          </tr>
-                        );
-                      })
-                    )
-                  ) : null}
-                </tbody>
-              </table>
-            </div>
-            {checkpointLoading && (
-              <span className="loading loading-spinner text-neutral"></span>
-            )}
-            {!checkpointLoading && checkpointError ? (
-              <div>Error: {error}</div>
-            ) : null}
-            {!checkpointLoading && Object.values(checkpoints).length > 1 ? (
-              <div className="grid flex-grow h-48 card items-center m-10 p-10">
-                <div className="flex flex-row justify-between mb-2">
-                  <h2 className="text-bold text-2xl font-mono">Checkpoints</h2>
-                  <button
-                    className="btn btn-primary btn-sm lg:btn-sm w-1/4"
-                    onClick={handleOnOpen}
-                  >
-                    Show Qr
-                  </button>
+                    );
+                  })}
                 </div>
-                <table className="table">
+              </div>
+            </div>
+            <div className=" flex flex-col lg:flex-row w-full mb-36">
+              <div className="grid flex-grow h-48 card items-center m-10 p-10">
+                <div className="flex flex-row justify-between mb-2 leading-4">
+                  <h2 className="text-bold text-2xl font-mono">Leaderboards</h2>
+                  {leaderboards.length ? null : (
+                    <div
+                      className="tooltip float-right tooltip-right"
+                      data-tip="Create Leaderboards"
+                    >
+                      <button
+                        className="btn btn-primary btn-sm btn-circle"
+                        onClick={handleCreateLeaderboard}
+                      >
+                        <Plus />
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <table className="table rounded-full">
                   <thead>
                     <tr className="font-mono text-black font-bold text-2xl bg-neutral">
-                      <th>Checkpoint</th>
-                      <th>Latitude</th>
-                      <th>Longitude</th>
+                      <th>User</th>
+                      <th>Points</th>
                     </tr>
                   </thead>
                   <tbody className="bg-yellow-300">
-                    {checkpoints.map((el) => {
-                      return (
-                        <tr
-                          key={el.id}
-                          className="font-mono text-black font-bold text-lg"
-                        >
-                          <td>{el.name}</td>
-                          <td>{el.lat}</td>
-                          <td>{el.long}</td>
-                        </tr>
-                      );
-                    })}
+                    {leaderboards.length ? (
+                      leaderboardLoading ? (
+                        <span className="  loading loading-spinner w-28 text-neutral"></span>
+                      ) : (
+                        leaderboards.map((el, i) => {
+                          return (
+                            <tr
+                              key={dataUsers[i].UserId}
+                              className="font-mono text-black font-bold text-lg"
+                            >
+                              <td>{dataUsers[i].User.name}</td>
+                              <td>{dataUsers[i].point}</td>
+                            </tr>
+                          );
+                        })
+                      )
+                    ) : null}
                   </tbody>
                 </table>
               </div>
-            ) : null}
+              {checkpointLoading && (
+                <span className="loading loading-spinner text-neutral"></span>
+              )}
+              {!checkpointLoading && checkpointError ? (
+                <div>Error: {error}</div>
+              ) : null}
+              {!checkpointLoading && Object.values(checkpoints).length > 1 ? (
+                <div className="grid flex-grow h-48 card items-center m-10 p-10">
+                  <div className="flex flex-row justify-between mb-2">
+                    <h2 className="text-bold text-2xl font-mono">
+                      Checkpoints
+                    </h2>
+                    <button
+                      className="btn btn-primary btn-sm lg:btn-sm w-1/4"
+                      onClick={handleOnOpen}
+                    >
+                      Show Qr
+                    </button>
+                  </div>
+                  <table className="table">
+                    <thead>
+                      <tr className="font-mono text-black font-bold text-2xl bg-neutral">
+                        <th>Checkpoint</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-yellow-300">
+                      {checkpoints.map((el) => {
+                        return (
+                          <tr
+                            key={el.id}
+                            className="font-mono text-black font-bold text-lg"
+                          >
+                            <td>{el.name}</td>
+                            <td>{el.lat}</td>
+                            <td>{el.long}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : null}
+            </div>
+            <QrModal visible={qrModal} onClose={handleOnClose} qr={qr} />
           </div>
-          <QrModal visible={qrModal} onClose={handleOnClose} qr={qr} />
         </div>
       ) : null}
     </>
