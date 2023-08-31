@@ -1,4 +1,4 @@
-import { GoogleMap } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import PropTypes from "prop-types";
 import { useCallback, useState } from "react";
 
@@ -14,6 +14,8 @@ const containerStyle = {
   height: "30rem",
 };
 
+const libraries = ["places"];
+
 import { setEventForm } from "../store/eventReducer";
 
 Geocode.setApiKey(import.meta.env.VITE_GOOGLE_MAP_API_KEY);
@@ -27,25 +29,28 @@ export default function MapModal({
   lati,
   longi,
 }) {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
+    libraries,
+  });
+
   const dispatch = useDispatch();
   const { eventForm } = useSelector((state) => state.event);
-  const zoom = 15
+  const zoom = 15;
 
   const [map, setMap] = useState(null);
 
   const [address, setAddress] = useState("");
-  const [lat, setLat] = useState(lati === "" ? -6.175063922825402 : lati);
-  const [long, setLong] = useState(longi === "" ? 106.82721465415136 : longi);
+  const [lat, setLat] = useState(
+    lati === "" ? -6.175063922825402 : Number(lati)
+  );
+  const [long, setLong] = useState(
+    longi === "" ? 106.82721465415136 : Number(longi)
+  );
 
   const onLoad = useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
     map.setZoom(zoom);
-
     setMap(map);
-  }, []);
-
-  const onUnmount = useCallback(function callback() {
-    setMap(null);
   }, []);
 
   const handleOnClose = (e) => {
@@ -77,6 +82,7 @@ export default function MapModal({
   };
 
   const handleOnClickOutside = async () => {
+    setMap(null);
     onClose();
   };
 
@@ -111,7 +117,7 @@ export default function MapModal({
   };
 
   if (!visible) return null;
-  return (
+  return isLoaded ? (
     <div
       id="container"
       onClick={handleOnClose}
@@ -123,7 +129,6 @@ export default function MapModal({
           center={{ lat: lat, lng: long }}
           zoom={zoom}
           onLoad={onLoad}
-          onUnmount={onUnmount}
           onClick={handleClick}
         >
           <MarkerF
@@ -160,6 +165,8 @@ export default function MapModal({
         </div>
       </div>
     </div>
+  ) : (
+    <></>
   );
 }
 MapModal.propTypes = {
@@ -170,9 +177,4 @@ MapModal.propTypes = {
   handleOnDrag: PropTypes.func,
   handleOnClick: PropTypes.func,
   handleOnSelect: PropTypes.func,
-};
-
-MapModal.defaultProps = {
-  lati: -6.175063922825402,
-  longi: 106.82721465415136,
 };

@@ -27,9 +27,10 @@ export default function AddEvent() {
   const {
     event: { dataEvent },
     error,
+    loading
   } = useSelector((state) => state.event);
 
-  const { categories, loading } = useSelector((state) => state.category);
+  const { categories } = useSelector((state) => state.category);
 
   const onChangeInput = ({ target: { name, value, files } }) => {
     if (name === "pics")
@@ -50,10 +51,15 @@ export default function AddEvent() {
   useEffect(() => {
     if (id) {
       dispatch(fetchEventById(id));
-      dispatch(setEventForm(dataEvent));
     }
     dispatch(fetchCategories());
   }, []);
+
+  useEffect(() => {
+    if (dataEvent) {
+      dispatch(setEventForm(dataEvent));
+    }
+  }, [dataEvent]);
 
 
   const changeOnDrag = async ({ address, lat, long }) => {
@@ -107,7 +113,7 @@ export default function AddEvent() {
         </div>
       )}
       {!loading && error ? <div>Error: {error}</div> : null}
-      {!loading && categories ? (
+      {!loading && categories && eventForm ? (
         <div
           className={
             dataEvent
@@ -129,8 +135,8 @@ export default function AddEvent() {
                 handleOnDrag={changeOnDrag}
                 handleOnClick={changeOnClick}
                 handleOnSelect={changeOnSelect}
-                lati={eventForm.lat}
-                longi={eventForm.long}
+                lati={dataEvent.lat}
+                longi={dataEvent.long}
               />
               <form>
                 <h1 className="card-title font-mono">Add Event</h1>
@@ -288,7 +294,11 @@ export default function AddEvent() {
             </div>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div className="mt-72 ml-96 pl-48 min-h-screen ">
+          <span className="  loading loading-spinner w-28 text-neutral"></span>
+        </div>
+      )}
     </>
   );
 }

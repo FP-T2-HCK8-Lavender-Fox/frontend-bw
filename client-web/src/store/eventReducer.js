@@ -216,6 +216,18 @@ const eventsSlice = createSlice({
 
       .addCase(postEvent.rejected, (state, action) => {
         state.loading = false;
+        state.eventForm = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          active: true,
+          description: "",
+          amount: "",
+          address: "",
+          lat: "",
+          long: "",
+          CategoryId: 0,
+        };
         state.error = action.error.message;
       })
 
@@ -225,11 +237,35 @@ const eventsSlice = createSlice({
 
       .addCase(editEventById.fulfilled, (state, action) => {
         state.msg = action.payload;
+        state.eventForm = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          active: true,
+          description: "",
+          amount: "",
+          address: "",
+          lat: "",
+          long: "",
+          CategoryId: 0,
+        };
         state.loading = false;
       })
 
       .addCase(editEventById.rejected, (state, action) => {
         state.loading = false;
+        state.eventForm = {
+          name: "",
+          startDate: "",
+          endDate: "",
+          active: true,
+          description: "",
+          amount: "",
+          address: "",
+          lat: "",
+          long: "",
+          CategoryId: 0,
+        };
         state.error = action.error.message;
       })
 

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 export default function Toast({ msg }) {
   return (
-    <div className="toast toast-top toast-end">
+    <div className="toast toast-top toast-end z-50">
       <div className="alert alert-info m-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
