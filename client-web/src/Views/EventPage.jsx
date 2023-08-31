@@ -14,6 +14,7 @@ export default function Movie() {
     dispatch(fetchEvents());
   }, [dispatch]);
 
+
   return (
     <>
       {msg && <Toast msg={msg} />}

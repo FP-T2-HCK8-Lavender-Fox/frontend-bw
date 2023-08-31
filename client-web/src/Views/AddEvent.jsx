@@ -12,10 +12,19 @@ import { fetchCategories } from "../store/categoryReducer";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 
+import MapModal from "../components/MapModal";
+
+import { Autocomplete } from "@react-google-maps/api";
+
+import { getGeocode, getLatLng } from "use-places-autocomplete";
+
 export default function AddEvent() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let { id } = useParams();
+
+  const [mapModal, setMapModal] = useState(false);
+  const handleOnCloseMap = () => setMapModal(false);
 
   const {
     event: { dataEvent },
@@ -163,6 +172,12 @@ export default function AddEvent() {
     dispatch(fetchCategories());
   }, []);
 
+  const handleSelect = async (e) => {
+    let address = e.target.value;
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    console.log(lat, lng);
+  };
   return (
     <>
       {loading && (
@@ -179,6 +194,13 @@ export default function AddEvent() {
               : "border mt-14 mb-20 shadow-2xl rounded-2xl overflow-y-auto h-5/6 lg:w-full"
           }
         >
+          <button
+            className="my-2 btn btn-primary btn-sm lg:btn-md"
+            onClick={() => setMapModal(true)}
+          >
+            Map
+          </button>
+          <MapModal visible={mapModal} onClose={handleOnCloseMap} />
           <div className="hero-content flex-col w-screen">
             <div className="card-body text-black">
               <form>
@@ -291,22 +313,26 @@ export default function AddEvent() {
                     />
                   </div>
                 </div>
-                <div className="form-control w-full max-w-xs">
+                {/* <div className="form-control w-full max-w-xs ">
                   <label className="label">
                     <span className="label-text text-black font-bold font-mono text-lg">
                       address
                     </span>
                   </label>
-                  <input
-                    id="address"
-                    type="text"
-                    name="address"
-                    value={eventState.address}
-                    onChange={onChangeInput}
-                    className="input input-bordered w-full max-w-xs"
-                  />
-                </div>
-                <div className="form-control w-full max-w-xs">
+                  <Autocomplete>
+                    <input
+                      id="address"
+                      type="text"
+                      name="address"
+                      value={eventState.address}
+                      onChange={onChangeInput}
+                      onSelect={handleSelect}
+                      className="input input-bordered w-full max-w-xs"
+                    />
+                  </Autocomplete>
+                </div> */}
+
+                {/* <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text text-black font-bold font-mono text-lg">
                       long
@@ -335,7 +361,7 @@ export default function AddEvent() {
                     onChange={onChangeInput}
                     className="input input-bordered w-full max-w-xs"
                   />
-                </div>
+                </div> */}
                 <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text text-black font-bold font-mono text-lg">
