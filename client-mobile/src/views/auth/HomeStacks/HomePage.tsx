@@ -31,9 +31,9 @@ export default function HomePage({ navigation, route }: any) {
   );
 
   React.useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getEvents());
-    dispatch(getSelf());
+    dispatch(getCategories())
+      .then(() => dispatch(getEvents()))
+      .then(() => dispatch(getSelf()));
   }, [dispatch, route]);
 
   const data = categories.map((el) => ({ name: el.name, code: el.id }));
