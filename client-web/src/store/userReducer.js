@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "https://c3d6-103-3-221-239.ngrok-free.app";
+// const baseUrl = "http://localhost:3000";
 
 const initialState = {
   loading: false,
@@ -16,6 +17,7 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
       headers: {
         "Content-Type": "application/json",
         access_token: localStorage.getItem("access_token"),
+        "ngrok-skip-browser-warning": "tes",
       },
     };
     const response = await fetch(baseUrl + "/users", options);
@@ -35,6 +37,7 @@ export const deleteUserById = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
           access_token: localStorage.getItem("access_token"),
+          "ngrok-skip-browser-warning": "tes",
         },
       };
       const response = await fetch(baseUrl + "/users/" + id, options);

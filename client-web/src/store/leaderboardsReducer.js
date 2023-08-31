@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "https://c3d6-103-3-221-239.ngrok-free.app";
+// const baseUrl = "http://localhost:3000";
 
 const initialState = {
   leaderboardLoading: false,
@@ -18,6 +19,7 @@ export const fetchLeaderboards = createAsyncThunk(
         method: "get",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "tes",
         },
       };
       const response = await fetch(baseUrl + "/leaderboards", options);
@@ -38,6 +40,7 @@ export const fetchLeaderboardById = createAsyncThunk(
         method: "get",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "tes",
         },
       };
       const response = await fetch(baseUrl + "/leaderboards/" + id, options);
@@ -60,6 +63,7 @@ export const postLeaderboard = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
             access_token: localStorage.getItem("access_token"),
+            "ngrok-skip-browser-warning": "tes",
           },
           body: JSON.stringify(data[i]),
         };
@@ -88,6 +92,7 @@ export const deleteLeaderboardById = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
             access_token: localStorage.getItem("access_token"),
+            "ngrok-skip-browser-warning": "tes",
           },
         };
         const response = await fetch(

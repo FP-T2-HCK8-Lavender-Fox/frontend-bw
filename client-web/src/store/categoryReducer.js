@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "https://c3d6-103-3-221-239.ngrok-free.app";
+// const baseUrl = "http://localhost:3000";
 
 const initialState = {
   loading: false,
@@ -20,6 +21,7 @@ export const fetchCategories = createAsyncThunk(
         method: "get",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "tes",
         },
       };
       const response = await fetch(baseUrl + "/categories", options);
@@ -59,6 +61,7 @@ export const postCategory = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
           access_token: localStorage.getItem("access_token"),
+          "ngrok-skip-browser-warning": "tes",
         },
         body: JSON.stringify(category),
       };
@@ -80,6 +83,7 @@ export const editCategoryById = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
           access_token: localStorage.getItem("access_token"),
+          "ngrok-skip-browser-warning": "tes",
         },
         body: JSON.stringify(category),
       };
@@ -104,6 +108,7 @@ export const deleteCategoryById = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
           access_token: localStorage.getItem("access_token"),
+          "ngrok-skip-browser-warning": "tes",
         },
       };
       const response = await fetch(baseUrl + "/categories/" + id, options);

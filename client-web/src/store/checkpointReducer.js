@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import QRCode from "qrcode";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "https://c3d6-103-3-221-239.ngrok-free.app";
+// const baseUrl = "http://localhost:3000";
 
 const initialState = {
   checkpointLoading: false,
@@ -61,6 +62,7 @@ export const fetchCheckpointsByEventId = createAsyncThunk(
         method: "get",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "tes",
         },
       };
       const response = await fetch(baseUrl + "/checkpoints/" + id, options);

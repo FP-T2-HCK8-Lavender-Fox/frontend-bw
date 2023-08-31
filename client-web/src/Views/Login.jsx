@@ -18,12 +18,14 @@ export default function Login() {
         method: "post",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "tes",
         },
         body: JSON.stringify(login),
       };
 
+      // "http://localhost:3000/admin/login",
       const response = await fetch(
-        `http://localhost:3000/admin/login`,
+        `https://c3d6-103-3-221-239.ngrok-free.app/admin/login`,
         options
       );
 
