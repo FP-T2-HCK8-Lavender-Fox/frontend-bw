@@ -23,7 +23,7 @@ export default function Admin() {
       {loading && <span className="loading loading-bars loading-lg"></span>}
       {!loading && error ? <div>Error: {error}</div> : null}
 
-      <div className="mt-14 mb-20 overflow-y-auto">
+      <div className="mt-10 mb-12 w-full h-full flex-wrap overflow-x-auto">
         <div className="leading-4">
           <h1 className="font-bold font-mono text-4xl float-left">Admin</h1>
           <div
@@ -39,8 +39,8 @@ export default function Admin() {
           </div>
         </div>
         <div className="hero">
-          <div className="hero-content flex-col lg:flex-row">
-            <div className="flex flex-col md:flex-row">
+          <div className="hero-content">
+            <div className="md:w-full lg:w-screen z-10 sm:grid md:grid md:grid-cols-2 lg:grid-cols-5">
               {!loading && admins.length ? (
                 admins.map((admin) => {
                   return <AdminCard admin={admin} key={admin.id} />;

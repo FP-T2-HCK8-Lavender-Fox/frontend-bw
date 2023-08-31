@@ -18,11 +18,11 @@ export default function Admin() {
       {loading && <span className="loading loading-bars loading-lg"></span>}
       {!loading && error ? <div>Error: {error}</div> : null}
 
-      <div className="mt-14 mb-20 overflow-y-auto">
+      <div className="mt-10 mb-12 w-full h-full flex-wrap overflow-x-auto">
         <h1 className="font-bold font-mono text-4xl float-left">User</h1>
         <div className="hero">
-          <div className="hero-content flex-col lg:flex-row">
-            <div className="flex flex-col md:flex-row">
+          <div className="hero-content">
+            <div className="md:w-full lg:w-screen z-10 sm:grid md:grid md:grid-cols-2 lg:grid-cols-3">
               {!loading && users.length ? (
                 users.map((user) => {
                   return <UserCard user={user} key={user.id} />;
