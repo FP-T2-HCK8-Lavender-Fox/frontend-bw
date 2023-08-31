@@ -40,7 +40,8 @@ export default function Sidebar({ children }) {
               <span>
                 {localStorage
                   .getItem("username")
-                  .match(/(^[a-z])/gi)
+                  .trim()
+                  .match(/(\b[a-z])/gi)
                   .join("")
                   .toUpperCase()}
               </span>

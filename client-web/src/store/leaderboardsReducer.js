@@ -22,7 +22,7 @@ export const fetchLeaderboards = createAsyncThunk(
       };
       const response = await fetch(baseUrl + "/leaderboards", options);
       let leaderboards = await response.json();
-      leaderboards = leaderboards.filter((el) => el.EventId === Number(id))
+      leaderboards = leaderboards.filter((el) => el.EventId === Number(id));
       return leaderboards;
     } catch (error) {
       return error;
@@ -53,8 +53,7 @@ export const postLeaderboard = createAsyncThunk(
   "leaderboards/postLeaderboards",
   async (data) => {
     try {
-      let temp = []
-      console.log("in");
+      let temp = [];
       for (const i in data) {
         let options = {
           method: "post",
@@ -80,18 +79,25 @@ export const postLeaderboard = createAsyncThunk(
 
 export const deleteLeaderboardById = createAsyncThunk(
   "leaderboards/deleteLeaderboardById",
-  async (id) => {
+  async (data) => {
     try {
-      let options = {
-        method: "delete",
-        headers: {
-          "Content-Type": "application/json",
-          access_token: localStorage.getItem("access_token"),
-        },
-      };
-      const response = await fetch(baseUrl + "/leaderboards/" + id, options);
-      const res = await response.json();
-      return res.message;
+      let temp = [];
+      for (const i in data) {
+        let options = {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            access_token: localStorage.getItem("access_token"),
+          },
+        };
+        const response = await fetch(
+          baseUrl + "/leaderboards/" + data[i].id,
+          options
+        );
+        const res = await response.json();
+        temp.push(res.message);
+      }
+      return temp;
     } catch (error) {
       return error;
     }
